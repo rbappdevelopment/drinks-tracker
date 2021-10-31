@@ -2,6 +2,8 @@
 
 @section('content')
 
+<?php use \App\Http\Controllers\BiersysteemController; ?>
+
 <br>
 
 <table>
@@ -23,6 +25,11 @@
 </tbody>
 </table>
 
+<a href="" id="submit">Submit!</a>
+
+<!-- The result of the search will be rendered inside this div -->
+<div id="result"></div>
+
 @endsection
 
 @section('scripts')
@@ -36,7 +43,52 @@ function addBeerToHeer(heer){
     document.getElementById('localBierCount'+heer).innerHTML = Personen[heer];
     console.log("Tapped: " + heer + ", added on " + 'localBierCount'+heer+". Total bier voor deze heer: " + Personen[heer]);
     console.log("Personen array inhoud:" + JSON.stringify(Personen));
+
+    $.ajaxSetup({
+      headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });  
+
+    //send data
+    $.ajax({
+            type : "POST",  //type of method
+            url  : "biersysteem/update",  //your page
+            data : { Personen },// passing the values
+            success: function(res){
+                        document.getElementById('result').innerHTML = "Updated Db via POST!";
+                        setTimeout(DisappearText, 1250);
+                    },
+        error: function(jqXHR, textStatus, errorThrown) {
+           console.log(textStatus, errorThrown);
+        }
+        });
 }
 
+function DisappearText(){
+    document.getElementById('result').innerHTML = "";
+}
+
+$("#submit").click(function(){
+$.ajaxSetup({
+      headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });  
+
+    //send data
+    $.ajax({
+            type : "POST",  //type of method
+            url  : "biersysteem/update",  //your page
+            data : { Personen },// passing the values
+            success: function(res){
+                        document.getElementById('result').innerHTML = "Updated Db via POST!";
+                        setTimeout(DisappearText, 1250);
+                    },
+        error: function(jqXHR, textStatus, errorThrown) {
+           console.log(textStatus, errorThrown);
+        }
+        });
+    });
 </script>
 @endsection

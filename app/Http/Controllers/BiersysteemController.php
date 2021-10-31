@@ -23,5 +23,16 @@ class BiersysteemController extends Controller
         return view ('biersysteem', compact('bierstand'));
     }
 
+    public function UpdateBierstand(Request $request){
+        echo "Welcome. Data received: " . print_r($request->Personen);
+
+        //TODO: Update Bierstand table in db via the array content
+
+        // $personen = $request->Personen;
+
+        // foreach($personen as $persoon){
+        //     Bierstand::where('Heer', $persoon)
+        // }
+    }
     
 }

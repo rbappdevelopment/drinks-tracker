@@ -15,6 +15,8 @@ use App\Http\Controllers\BiersysteemController;
 
 Route::get('/biersysteem', [BiersysteemController::class, 'LoadBierstandData']);
 
+Route::post('/biersysteem/update', [BiersysteemController::class, 'UpdateBierstand']);
+
 // Route::get('/biersysteem', function () {
 //     return view('biersysteem');
 // });
