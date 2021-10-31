@@ -25,4 +25,3 @@ class BiersysteemController extends Controller
 
     
 }
-// Was bij deze tut (begin part 3: 'Laravel for Beginners - Part 3 (Models and Migrations)'): https://www.youtube.com/watch?v=mQGJ9QIJ-3U

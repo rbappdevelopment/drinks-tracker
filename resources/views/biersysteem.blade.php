@@ -17,7 +17,7 @@
         <tr class="tr body">
         <td><a href="#" onclick="addBeerToHeer('{{$heer->Heer}}');return false;">{{$heer->Heer}}</a></td>
         <td><a href="#" onclick="addBeerToHeer('{{$heer->Heer}}');return false;">{{$heer->Bier}}</a></td>
-        <td><a href="#"><p id="localBierCount{{$heer->Heer}}"></p></a></td>
+        <td><a href="#" id="localBierCount{{$heer->Heer}}"></a></td>
         </tr>
         @endforeach
 </tbody>
@@ -27,12 +27,15 @@
 
 @section('scripts')
 <script>
-var initialBierCount = 0;
+var Personen = {"Bersee":0, "Verburg":0, "Pont":0};
+let firstTap = new Boolean(true);
 
 function addBeerToHeer(heer){
-    initialBierCount++;
-    document.getElementById('localBierCount{{$heer->Heer}}').innerHTML = initialBierCount;
-    console.log("Tapped: " + heer + ", added on " + 'localBierCount{{$heer->Heer}}');
+    Personen[heer]++;
+    //Personen.push(heer);
+    document.getElementById('localBierCount'+heer).innerHTML = Personen[heer];
+    console.log("Tapped: " + heer + ", added on " + 'localBierCount'+heer+". Total bier voor deze heer: " + Personen[heer]);
+    console.log("Personen array inhoud:" + JSON.stringify(Personen));
 }
 
 </script>

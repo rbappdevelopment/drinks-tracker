@@ -10,6 +10,9 @@
 <link href="css/app.css" rel="stylesheet" type="text/css">
 <div class="header">
   <a href="#default" class="logo">Biersysteem</a>
+    <div class="header-right">
+        <a href="biersysteem/admin" class="logo">Admin</a>
+    </div>
 </div>
 
 @yield('scripts')
