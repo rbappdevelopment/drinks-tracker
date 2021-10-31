@@ -1,0 +1,38 @@
+.header {
+    overflow: hidden;
+    background-color: #f1f1f1;
+    padding: 20px 10px;
+  }
+
+  * {box-sizing: border-box;}
+
+body { 
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+tr.body{
+  background: rgba(77, 175, 199, 0.651); 
+}
+tr.body:nth-child(even){
+  background: rgba(125, 214, 236, 0.651); 
+}
+
+tr.body:hover { background: rgba(126, 199, 192, 0.377); }
+
+td a { 
+    display: block; 
+    padding: 16px; 
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}

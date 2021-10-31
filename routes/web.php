@@ -13,8 +13,8 @@ use App\Http\Controllers\BiersysteemController;
 |
 */
 
-Route::get('/', [BiersysteemController::class, 'ShowUsers']);
+Route::get('/biersysteem', [BiersysteemController::class, 'LoadBierstandData']);
 
-Route::get('/biersysteem', function () {
-    return view('biersysteem');
-});
+// Route::get('/biersysteem', function () {
+//     return view('biersysteem');
+// });
