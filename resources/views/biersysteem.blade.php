@@ -34,12 +34,20 @@
 
 @section('scripts')
 <script>
-var Personen = {"Bersee":0, "Verburg":0, "Pont":0};
+
+//Load personen from Db table Bierstand, start count with 0.
+var Personen = {
+    @foreach($bierstand as $heer)
+    {{ $heer->Heer }}:0,
+    @endforeach
+};
+
+console.log("Gelade data uit Db: " + JSON.stringify(Personen));
+
 let firstTap = new Boolean(true);
 
 function addBeerToHeer(heer){
     Personen[heer]++;
-    //Personen.push(heer);
     document.getElementById('localBierCount'+heer).innerHTML = Personen[heer];
     console.log("Tapped: " + heer + ", added on " + 'localBierCount'+heer+". Total bier voor deze heer: " + Personen[heer]);
     console.log("Personen array inhoud:" + JSON.stringify(Personen));
