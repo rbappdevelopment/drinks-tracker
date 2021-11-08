@@ -24,15 +24,16 @@ class BiersysteemController extends Controller
     }
 
     public function UpdateBierstand(Request $request){
-        echo "Welcome. Data received: " . print_r($request->Personen);
+        //echo print_r($request->Personen);
 
+
+        //return redirect('/');
         //TODO: Update Bierstand table in db via the array content
 
-        // $personen = $request->Personen;
+        //$personen = $request->Personen;
 
-        // foreach($personen as $persoon){
-        //     Bierstand::where('Heer', $persoon)
-        // }
+        //return redirect('/');
+
     }
     
 }
