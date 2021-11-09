@@ -6,7 +6,14 @@
 
 <br>
 <div class="center">
-<form method="post" >
+
+  <!--Success message-->
+  @if(session()->has('success'))
+  {{ session()->get('success') }}
+  @endif
+
+<form method="post" action="{{ route('addperson') }}">
+  @csrf
   <div class="form-group">
     <label for="exampleInputEmail1">Naam:</label>
     <input type="text" class="form-control" name="Heer" placeholder="Naam Heer">
