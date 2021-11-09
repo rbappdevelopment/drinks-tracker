@@ -80,3 +80,29 @@ table {
   width: 100%;
   border: 1px solid #ddd;
 }
+
+div.mainButtonContent {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  float: none;
+  display: block;
+}
+
+.admin {
+  padding: 15px;
+  border-radius: 2px;
+  display: block;
+  background-color: aliceblue;
+  text-align: center;
+}
+
+.admin hover {
+  background-color: #ddd;
+  color: black;
+}
+
+div.center {
+  width: 50%;
+  margin: 0 auto;
+}

@@ -2,6 +2,8 @@
 
 @section('content')
 
+<link href="/css/app.css" rel="stylesheet" type="text/css">
+
 <?php use \App\Http\Controllers\BiersysteemController;
 use App\Models\Bierstand;
 ?>
@@ -27,13 +29,10 @@ use App\Models\Bierstand;
 </tbody>
 </table>
 
+<div id="result"></div> 
+
 <br>
 <button name="submit" id="submit" onclick="return PostData()">Submit!</button>
-
-<!-- <a href="" type="button" id="submit">Submit!</a> -->
-<div id="result"></div>
-
-<pre>{{ $user = Bierstand::find(1); }}</pre>
 
 @endsection
 
@@ -41,10 +40,6 @@ use App\Models\Bierstand;
 <script>
 
 //Load personen from Db table Bierstand, start count with 0.
-
-    //@foreach($bierstand as $heer)
-    //{{ $heer->Heer }}:0,
-    //@endforeach
 
     var Personen = {
         Heren:[]

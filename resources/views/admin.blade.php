@@ -1,9 +1,13 @@
 @extends('includes.master')
 
-<link href="../css/app.css" rel="stylesheet" type="text/css">
 @section('content')
 
+<link href="../css/app.css" rel="stylesheet" type="text/css">
+
 <br>
-<a href="/biersysteem/admin/addperson">Add person</a>
+<div class="mainButtonContent">
+    <a class="admin" href="/biersysteem/admin/addperson">Add person</a>
+    <a class="admin" href="/biersysteem/admin/checkmutations">Check mutations</a>
+</div>
 
 @endsection

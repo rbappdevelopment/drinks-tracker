@@ -48,13 +48,5 @@ class BiersysteemController extends Controller
         }
         return redirect('/biersysteem');
     }
-    
-    public function LoadAdminPage(){
-        return view('admin');
-    }
-
-    public function LoadAdminPage_AddPerson(){
-        return view('admin.addperson');
-    }
 
 }

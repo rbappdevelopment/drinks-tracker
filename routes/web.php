@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BiersysteemController;
+use App\Http\Controllers\AdminController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,13 +14,14 @@ use App\Http\Controllers\BiersysteemController;
 |
 */
 
+//Biersysteem routes
 Route::get('/biersysteem', [BiersysteemController::class, 'LoadBierstandData']);
-
-Route::get('/biersysteem/admin', [BiersysteemController::class, 'LoadAdminPage']);
-
-Route::get('/biersysteem/admin/addperson', [BiersysteemController::class, 'LoadAdminPage_AddPerson']);
-
 Route::post('/biersysteem/update', [BiersysteemController::class, 'UpdateBierstand']);
+
+//Admin routes
+Route::get('/biersysteem/admin', [AdminController::class, 'LoadAdminPage']);
+Route::get('/biersysteem/admin/addperson', [AdminController::class, 'LoadAdminPage_AddPerson']);
+Route::post('/biersysteem/admin/addperson', [AdminController::class, 'AddPerson'])->name('addperson');
 
 // Route::get('/biersysteem', function () {
 //     return view('biersysteem');
