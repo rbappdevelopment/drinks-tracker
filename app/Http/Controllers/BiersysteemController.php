@@ -20,20 +20,41 @@ class BiersysteemController extends Controller
         //Load all data from Bierstand (main) table
         $bierstand = Bierstand::get();
 
-        return view ('biersysteem', compact('bierstand'));
+        return view('biersysteem', compact('bierstand'));
     }
 
     public function UpdateBierstand(Request $request){
-        //echo print_r($request->Personen);
 
+        $input = $request->collect();
+        $requestPersonen = $request->input('Personen.Heren.*');
 
-        //return redirect('/');
-        //TODO: Update Bierstand table in db via the array content
+        foreach($requestPersonen as $name){
+            //TODO: Add WhenHas() check to see if name is in the db
 
-        //$personen = $request->Personen;
+            $data = Bierstand::where('Heer', $name["Heer"]);
+            $dataBier = $data->value('Bier');
+            
+            //deduct beverage from person
+            $dataBier -= $name["Afgestreept"];
+            $data->Bier = $dataBier;
 
-        //return redirect('/');
+            //save to db table Bierstand
+            $data->update(['Bier' => $dataBier]);
 
+            echo "Where dataBier = " . $dataBier . " & "; 
+
+            //TODO: Add third value of whoever is currently logged in (for the mutaties table)
+            //TODO: Something like getCurrentlyLoggedInUser->name
+        }
+        return redirect('/biersysteem');
     }
     
+    public function LoadAdminPage(){
+        return view('admin');
+    }
+
+    public function LoadAdminPage_AddPerson(){
+        return view('admin.addperson');
+    }
+
 }

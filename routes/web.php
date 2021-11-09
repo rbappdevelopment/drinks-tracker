@@ -15,6 +15,10 @@ use App\Http\Controllers\BiersysteemController;
 
 Route::get('/biersysteem', [BiersysteemController::class, 'LoadBierstandData']);
 
+Route::get('/biersysteem/admin', [BiersysteemController::class, 'LoadAdminPage']);
+
+Route::get('/biersysteem/admin/addperson', [BiersysteemController::class, 'LoadAdminPage_AddPerson']);
+
 Route::post('/biersysteem/update', [BiersysteemController::class, 'UpdateBierstand']);
 
 // Route::get('/biersysteem', function () {
