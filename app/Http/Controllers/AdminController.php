@@ -18,12 +18,19 @@ class AdminController extends Controller
     }
 
     public function AddPerson(Request $req){
+
+        $req->validate([
+            'Heer' => 'required|max:50|unique:Bierstand'
+        ]);
+
         $person = new Bierstand;
         $person->Heer = $req->Heer;
         $person->Bier = 0;
         $person->save();
 
-        return redirect()->back()->with('success', 'Persoon is aangemaakt: ' . $req->Heer . ".");
+        return redirect()->back()
+        ->with('success', 'Persoon is aangemaakt: ')
+        ->with('persoonadded', $req->Heer);
     }
 
 }

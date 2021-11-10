@@ -28,6 +28,8 @@ class BiersysteemController extends Controller
         $input = $request->collect();
         $requestPersonen = $request->input('Personen.Heren.*');
 
+        $PeopleWithBeerAdded = [];
+
         foreach($requestPersonen as $name){
             //TODO: Add WhenHas() check to see if name is in the db
 
@@ -41,12 +43,15 @@ class BiersysteemController extends Controller
             //save to db table Bierstand
             $data->update(['Bier' => $dataBier]);
 
+            //store whether or not person had drinks added to show on view
+            array_push($PeopleWithBeerAdded, $name);
+
             echo "Where dataBier = " . $dataBier . " & "; 
 
             //TODO: Add third value of whoever is currently logged in (for the mutaties table)
             //TODO: Something like getCurrentlyLoggedInUser->name
         }
-        return redirect('/biersysteem');
+        return redirect('/biersysteem')->with('status', 'Er is afgestreept op ... [array van mensen + # drinks hier] !'); // TODO: Send array of people with beverages drank to show on view
     }
 
 }

@@ -64,13 +64,17 @@ tr.body:hover { background: rgba(126, 199, 192, 0.377); }
 
 td a { 
     display: block; 
-    padding: 16px;
+    padding: 24px;
     color: black;
     text-decoration: none;
 }
 
 th, td {
   text-align: left;
+  width: 250px;
+}
+
+#addpadding {
   padding: 8px;
 }
 
@@ -79,6 +83,11 @@ table {
   border-spacing: 0;
   width: 100%;
   border: 1px solid #ddd;
+}
+
+.addTwelve{
+  font-size:25pt;
+  text-align: center;
 }
 
 div.mainButtonContent {

@@ -10,20 +10,28 @@ use App\Models\Bierstand;
 
 <br>
 
+@if (session('status'))
+    <div class="alert alert-success">
+       <p> {{ session('status') }} </p>
+    </div>
+@endif
+
 <table>
     <thead>
         <tr>
-            <td>Heer</td>
-            <td>Bierstand</td>
-            <td>#</td>
+            <td id="addpadding">Heer</td>
+            <td id="addpadding">Bierstand</td>
+            <td id="addpadding">#</td>
+            <td id="addpadding"></td>
         </tr>
     </thead>
 <tbody>
         @foreach($bierstand as $heer)
-        <tr class="tr body">
-        <td><a href="#" onclick="AddBeerToHeer('{{$heer->Heer}}');return false;">{{$heer->Heer}}</a></td>
-        <td><a href="#" onclick="AddBeerToHeer('{{$heer->Heer}}');return false;">{{$heer->Bier}}</a></td>
-        <td><a href="#" id="localBierCount{{$heer->Heer}}"></a></td>
+        <tr class="tr body"> {{-- Add data-toggle="modal" data-target="#exampleModal" to this tr for edit row entry (TODO admin screen to edit) --}}
+                <td><a href="#" onclick="AddBeerToHeer('{{$heer->Heer}}', 1);return false;">{{$heer->Heer}}</a></td>
+                <td><a href="#" onclick="AddBeerToHeer('{{$heer->Heer}}', 1);return false;">{{$heer->Bier}}</a></td>
+                <td><b><a href="#" onclick="AddBeerToHeer('{{$heer->Heer}}', 1);return false;" id="localBierCount{{$heer->Heer}}"></b></a></td>
+                <td><a href="#" onclick="AddBeerToHeer('{{$heer->Heer}}', 12);return false;" id="localBierCount{{$heer->Heer}}" class="addTwelve"><i class="fas fa-beer"></i>x12</a></td>
         </tr>
         @endforeach
 </tbody>
@@ -32,7 +40,32 @@ use App\Models\Bierstand;
 <div id="result"></div> 
 
 <br>
-<button name="submit" id="submit" onclick="return PostData()">Submit!</button>
+<button name="submit" class="btn btn-primary" onclick="return PostData()">Submit!</button>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Launch demo modal
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 @endsection
 
@@ -40,7 +73,6 @@ use App\Models\Bierstand;
 <script>
 
 //Load personen from Db table Bierstand, start count with 0.
-
     var Personen = {
         Heren:[]
     };
@@ -56,10 +88,10 @@ console.log("Gelade data uit Db: " + JSON.stringify(Personen));
 
 let firstTap = new Boolean(true);
 
-function AddBeerToHeer(heer){
+function AddBeerToHeer(heer, amount){
 
     //update value in object array & increment drinkcount
-    var persoonBeverageCount = Personen.Heren.find(persoon => persoon.Heer === heer)['Afgestreept'] += 1;
+    var persoonBeverageCount = Personen.Heren.find(persoon => persoon.Heer === heer)['Afgestreept'] += amount;
 
     //update view
     document.getElementById('localBierCount'+heer).innerHTML = persoonBeverageCount;
@@ -90,7 +122,6 @@ $.ajaxSetup({
                         document.getElementById('result').innerHTML = "Updated Db via POST!";
                         setTimeout(DisappearText, 1250);
                         location.reload();
-                        alert("Succesvol bier afgestreept!");
                     },
         error: function(jqXHR, textStatus, errorThrown) {
            console.log(textStatus, errorThrown);
