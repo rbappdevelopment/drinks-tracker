@@ -6,15 +6,22 @@
 
 <?php use \App\Http\Controllers\BiersysteemController;
 use App\Models\Bierstand;
+use App\Models\Mutaties;
 ?>
 
-<br>
 
+{{-- TODO: Deze session werkend krijgen -> laten zien op wie is afgestreept. --}}
 @if (session('status'))
     <div class="alert alert-success">
        <p> {{ session('status') }} </p>
     </div>
 @endif
+
+<div class="center">
+  <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">
+    Check mutaties <i class="fas fa-table"></i>
+  </button>
+</div>
 
 <table>
     <thead>
@@ -41,27 +48,45 @@ use App\Models\Bierstand;
 
 <br>
 <button name="submit" class="btn btn-primary" onclick="return PostData()">Submit!</button>
-
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-    Launch demo modal
-  </button>
   
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Mutaties</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          ...
+          {{-- TODO: Hier de mutaties tabel laden, order by date desc --}}
+          <table>
+            <thead>
+                <tr style="font-size: 10pt; background: rgba(255, 221, 182, 0.747); ">
+                  <td id=""><b>Afgestreept op</b></td>
+                  <td id=""><b>Aantal afgestreept</b></td>
+                  <td id=""><b>Totaal over</b></td>
+                  <td id=""><b>Afgestreept door</b></td>
+                  <td id=""><b>Datum & tijd</b></td>
+                </tr>
+            </thead>
+        <tbody>
+                @foreach($mutaties as $mutatie)
+                <tr class="tr mutationsbody"> {{-- Add data-toggle="modal" data-target="#exampleModal" to this tr for edit row entry (TODO admin screen to edit) --}}
+                  <td id="">@php $subjectName = Bierstand::where('id', $mutatie->HeerId)->value('Heer') @endphp {{ $subjectName }}</td>
+                  <td id="">{{$mutatie->AantalBier}}</td>
+                  <td id="">{{$mutatie->TotaalBierNaMutatie}}</td>
+                  <td id="">@php $subjectedByName = Bierstand::where('id', $mutatie->GemuteerdDoorHeer)->value('Heer') @endphp {{ $subjectedByName }}</td>
+                  <td id="">{{$mutatie->created_at}}</td>
+                </tr>
+                @endforeach
+        </tbody>
+        </table>
+
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Terug</button>
         </div>
       </div>
     </div>
