@@ -20,7 +20,7 @@ class BiersysteemController extends Controller
 
         //Load all data from Bierstand (main) table
         $bierstand = Bierstand::get();
-        $mutaties = Mutaties::paginate(50);
+        $mutaties = Mutaties::orderBy('created_at', 'desc')->paginate(10);
 
         return view('biersysteem', compact('bierstand', 'mutaties'));
     }
