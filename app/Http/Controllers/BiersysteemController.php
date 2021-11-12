@@ -8,7 +8,13 @@ use App\Models\Bierstand;
 use App\Models\Mutaties;
 class BiersysteemController extends Controller
 {
-    
+    public function __construct(){
+        $this->middleware('auth');
+
+        //Use below for specific views
+        //$this->middleware('auth', ['except' => ['index']]);
+    }
+
     public function LoadBierstandData(){
 
         //Check if Db connection is successful
@@ -20,7 +26,7 @@ class BiersysteemController extends Controller
 
         //Load all data from Bierstand (main) table
         $bierstand = Bierstand::get();
-        $mutaties = Mutaties::orderBy('created_at', 'desc')->paginate(10);
+        $mutaties = Mutaties::orderBy('created_at', 'desc')->paginate(50);
 
         return view('biersysteem', compact('bierstand', 'mutaties'));
     }
@@ -58,7 +64,7 @@ class BiersysteemController extends Controller
             $mutatie->HeerId = Bierstand::where('Heer', $name["Heer"])->value('id');
             $mutatie->AantalBier = $name["Afgestreept"];
             $mutatie->TotaalBierNaMutatie = $dataBier; //Bierstand::where('Heer', $name["Heer"])->value('Bier');
-            $mutatie->GemuteerdDoorHeer = 0;//TODO: Add third value of whoever is currently logged in (for the mutaties table)
+            $mutatie->GemuteerdDoorHeer = auth()->user()->id;
             $mutatie->save();
 
             //TODO: Something like getCurrentlyLoggedInUser->name

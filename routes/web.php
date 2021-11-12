@@ -23,6 +23,9 @@ Route::get('/biersysteem/admin', [AdminController::class, 'LoadAdminPage']);
 Route::get('/biersysteem/admin/addperson', [AdminController::class, 'LoadAdminPage_AddPerson']);
 Route::post('/biersysteem/admin/addperson', [AdminController::class, 'AddPerson'])->name('addperson');
 
-// Route::get('/biersysteem', function () {
-//     return view('biersysteem');
-// });
+//Authentication & authorization
+Route::group(['prefix' => 'biersysteem'], function () {
+    Auth::routes();
+});
+
+Route::get('/biersysteem/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

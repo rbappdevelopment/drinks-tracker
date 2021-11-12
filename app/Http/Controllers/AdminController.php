@@ -8,7 +8,10 @@ use App\Models\Bierstand;
 
 class AdminController extends Controller
 {
-    
+    public function __construct(){
+        $this->middleware('auth');
+    }
+
     public function LoadAdminPage(){
         return view('admin');
     }
@@ -34,3 +37,5 @@ class AdminController extends Controller
     }
 
 }
+
+// user roles (for admin) --> https://www.youtube.com/watch?v=kZOgH3-0Bko
