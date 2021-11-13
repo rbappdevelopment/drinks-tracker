@@ -28,7 +28,7 @@ use App\Models\Mutaties;
     </thead>
 <tbody>
         @foreach($bierstand as $heer)
-          <tr class="tr body"> {{-- Add data-toggle="modal" data-target="#exampleModal" to this tr for edit row entry (TODO admin screen to edit) --}}
+          <tr class="tr body"> {{-- Add data-toggle="modal" data-target="#mutatiesModal" to this tr for edit row entry (TODO admin screen to edit) --}}
                   <td><a href="#" onclick="AddBeerToHeer('{{$heer->Heer}}', 1);return false;">
                     @if ($loop->first)
                       <i class="fas fa-crown"></i>
@@ -51,8 +51,8 @@ use App\Models\Mutaties;
 @endsection
 
 @section('scripts')
-<script>
 
+<script>
 //Load personen from Db table Bierstand, start count with 0.
     var Personen = {
         Heren:[]
@@ -67,8 +67,6 @@ use App\Models\Mutaties;
 
 console.log("Gelade data uit Db: " + JSON.stringify(Personen));
 
-let firstTap = new Boolean(true);
-
 function AddBeerToHeer(heer, amount){
 
     //update value in object array & increment drinkcount
@@ -78,10 +76,6 @@ function AddBeerToHeer(heer, amount){
     document.getElementById('localBierCount'+heer).innerHTML = persoonBeverageCount;
     console.log("Tapped: " + heer + ", added on " + 'localBierCount'+heer+". Total bier voor deze heer: " + persoonBeverageCount);
     console.log("Personen array inhoud:" + JSON.stringify(Personen));     
-}
-
-function DisappearText(){
-    document.getElementById('result').innerHTML = "";
 }
 
 function PostData()
@@ -100,9 +94,7 @@ $.ajaxSetup({
             url  : "biersysteem/update",
             data : { Personen }, //passing new bierstand values
             success: function(res){
-                        document.getElementById('result').innerHTML = "Updated Db via POST!";
-                        setTimeout(DisappearText, 1250);
-                        location.reload();
+                        window.location = "/biersysteem";
                     },
         error: function(jqXHR, textStatus, errorThrown) {
            console.log(textStatus, errorThrown);

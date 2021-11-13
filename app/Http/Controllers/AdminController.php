@@ -17,13 +17,13 @@ class AdminController extends Controller
         //Load mutaties for mutaties button in header
         $mutaties = Mutaties::orderBy('created_at', 'desc')->paginate(50);
 
-        return view('admin', compact('mutaties'));
+        return view('admin.admin', compact('mutaties'));
     }
 
     public function LoadAdminPage_AddPerson(){
         $mutaties = Mutaties::orderBy('created_at', 'desc')->paginate(50);
 
-        return view('admin-addperson', compact('mutaties'));
+        return view('admin.admin-addperson', compact('mutaties'));
     }
 
     public function AddPerson(Request $req){

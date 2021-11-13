@@ -19,9 +19,15 @@ Route::get('/biersysteem', [BiersysteemController::class, 'LoadBierstandData']);
 Route::post('/biersysteem/update', [BiersysteemController::class, 'UpdateBierstand']);
 
 //Admin routes
-Route::get('/biersysteem/admin', [AdminController::class, 'LoadAdminPage']);
-Route::get('/biersysteem/admin/addperson', [AdminController::class, 'LoadAdminPage_AddPerson']);
-Route::post('/biersysteem/admin/addperson', [AdminController::class, 'AddPerson'])->name('addperson');
+Route::group(['middleware' => 'auth'], function(){
+    Route::group([
+        'middleware' => 'is_admin'
+    ], function(){
+        Route::get('/biersysteem/admin', [AdminController::class, 'LoadAdminPage']);
+        Route::get('/biersysteem/admin/addperson', [AdminController::class, 'LoadAdminPage_AddPerson']);
+        Route::post('/biersysteem/admin/addperson', [AdminController::class, 'AddPerson'])->name('addperson');
+    });
+});
 
 //Authentication & authorization
 Route::group(['prefix' => 'biersysteem'], function () {

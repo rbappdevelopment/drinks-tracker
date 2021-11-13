@@ -19,6 +19,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/biersysteem') }}">
+                    <i class="fas fa-home" style="font-size: 18pt"></i>
                         {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -53,10 +54,10 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" data-toggle="modal" data-target="#exampleModal">
+                                    <a class="dropdown-item" data-toggle="modal" data-target="#mutatiesModal">
                                         Check mutaties <i class="fas fa-table"></i>
                                     </a>
-                                    <a class="dropdown-item" href="biersysteem/admin/addperson">
+                                    <a class="dropdown-item" href="/biersysteem/admin/addperson">
                                         Persoon toevoegen <i class="fas fa-male"></i>
                                     </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
@@ -87,11 +88,11 @@
 </div> --}}
 
   <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="mutatiesModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Mutaties</h5>
+          <h5 class="modal-title" id="mutatiesModalLabel">Mutaties</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -114,3 +115,10 @@
 
 </body>
 </html>
+
+<script>
+var url = window.location.href;
+if(url.indexOf('?page=') != -1) {
+    $('#mutatiesModal').modal('show');
+}
+</script>
