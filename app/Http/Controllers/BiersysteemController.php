@@ -11,7 +11,7 @@ class BiersysteemController extends Controller
     public function __construct(){
         $this->middleware('auth');
 
-        //Use below for specific views
+        //Use below to exclude specific views
         //$this->middleware('auth', ['except' => ['index']]);
     }
 
