@@ -15,7 +15,7 @@ use App\Models\Bierstand;
     </thead>
 <tbody>
         @foreach($mutaties as $mutatie)
-        <tr class="tr mutationsbody"> {{-- Add data-toggle="modal" data-target="#exampleModal" to this tr for edit row entry (TODO admin screen to edit) --}}
+        <tr class="tr mutationsbody"> {{-- Add data-toggle="modal" data-target="#mutatiesModal" to this tr for edit row entry (TODO admin screen to edit) --}}
           <td id="">@php $subjectName = Bierstand::where('id', $mutatie->HeerId)->value('Heer') @endphp {{ $subjectName }}</td>
           <td id="">{{$mutatie->AantalBier}}</td>
           <td id="">{{$mutatie->TotaalBierNaMutatie}}</td>
