@@ -17,12 +17,41 @@
 
 <div class="header">
   <a href="/biersysteem" class="logo">Biersysteem</a>
+
+    @if (!Request::is('biersysteem/*'))
+    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">
+        Check mutaties <i class="fas fa-table"></i>
+      </button>
+    @endif
+
     @if (Auth::user())
     <div class="header-right">
         <a href="/biersysteem/admin" class="logo">Admin</a>
     </div>
     @endif
 </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Mutaties</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {{-- TODO: Hier de mutaties tabel laden, order by date desc --}}
+          @include('includes.mutationstable')
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Terug</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 @yield('scripts')
 

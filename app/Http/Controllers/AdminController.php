@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Bierstand;
+use App\Models\Mutaties;
 
 class AdminController extends Controller
 {
@@ -13,11 +14,16 @@ class AdminController extends Controller
     }
 
     public function LoadAdminPage(){
-        return view('admin');
+        //Load mutaties for mutaties button in header
+        $mutaties = Mutaties::orderBy('created_at', 'desc')->paginate(50);
+
+        return view('admin', compact('mutaties'));
     }
 
     public function LoadAdminPage_AddPerson(){
-        return view('admin-addperson');
+        $mutaties = Mutaties::find(1)->paginate(10);
+
+        return view('admin-addperson', compact('mutaties'));
     }
 
     public function AddPerson(Request $req){
