@@ -52,17 +52,17 @@
                                     {{ Auth::user()->name }}
                                 </a>
 
-                                @if (!Request::is('biersysteem/*'))
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" data-toggle="modal" data-target="#exampleModal">
-                                    Check mutaties <i class="fas fa-table"></i>
-                                </a>
-                                @endif
-                                
+                                    <a class="dropdown-item" data-toggle="modal" data-target="#exampleModal">
+                                        Check mutaties <i class="fas fa-table"></i>
+                                    </a>
+                                    <a class="dropdown-item" href="biersysteem/admin/addperson">
+                                        Persoon toevoegen <i class="fas fa-male"></i>
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Uitloggen') }}
+                                        {{ __('Uitloggen') }} <i class="fas fa-sign-out-alt"></i>
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -77,14 +77,14 @@
         </nav>
     </div>
 
-<div class="header">
+{{-- <div class="header">
   <a href="/biersysteem" class="logo">Biersysteem</a>
     @if (Auth::user())
     <div class="header-right">
         <a href="/biersysteem/admin" class="logo">Admin</a>
     </div>
     @endif
-</div>
+</div> --}}
 
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

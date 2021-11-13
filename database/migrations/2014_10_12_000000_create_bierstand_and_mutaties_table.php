@@ -17,6 +17,7 @@ class CreateBierstandAndMutatiesTable extends Migration
             $table->id();
             $table->string('Heer');
             $table->integer('Bier');
+            $table->integer('TotaalOnzichtbaar');
             $table->timestamps();
         });
 

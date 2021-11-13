@@ -21,7 +21,7 @@ class AdminController extends Controller
     }
 
     public function LoadAdminPage_AddPerson(){
-        $mutaties = Mutaties::find(1)->paginate(10);
+        $mutaties = Mutaties::orderBy('created_at', 'desc')->paginate(50);
 
         return view('admin-addperson', compact('mutaties'));
     }
