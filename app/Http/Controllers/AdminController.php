@@ -32,6 +32,19 @@ class AdminController extends Controller
         $Bierstand->Bier += $req->changeDrinksAmount;
         $Bierstand->save();
 
+        //log into db table Mutaties
+        $mutatie = new Mutaties;
+        $mutatie->HeerId = $id;
+        if($req->changeDrinksAmount<0){
+            $mutatie->AantalBier = $req->changeDrinksAmount;
+        }else{
+            $mutatie->AantalBier = $req->changeDrinksAmount;
+        }
+        $mutatie->TotaalBierNaMutatie = $Bierstand->Bier;
+        $mutatie->GemuteerdDoorHeer = auth()->user()->id; //TODO: Needs to be correlated with Bierstand table
+        $mutatie->IsAdminUpdate = true;
+        $mutatie->save();
+
         return redirect('biersysteem/admin/editperson')
         ->with('successfulUpdateTitle', 'Bierstand geüpdatet!')
         ->with('successfulUpdateBody', 'Bierstand aangepast voor  ' . $Bierstand->where('id', $id)->value('Heer') . ':  ' . $req->changeDrinksAmount . " is bij " . $oldValue . " opgeteld.")
