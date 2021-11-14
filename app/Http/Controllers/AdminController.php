@@ -27,16 +27,12 @@ class AdminController extends Controller
     }
 
     public function UpdateValue($id, Request $req){
-        // $Bierstand = Bierstand::where($id)->first();
         $Bierstand = Bierstand::find($id);
-
-        echo "voor optellen: " . $Bierstand->Bier . " & er komt bij: " . $req->changeDrinksAmount;
         $oldValue = $Bierstand->Bier;
         $Bierstand->Bier += $req->changeDrinksAmount;
         $Bierstand->save();
-        echo "na optellen: " . $Bierstand->Bier;
 
-        return redirect()->back()
+        return redirect('biersysteem/admin/editperson')
         ->with('successfulUpdateTitle', 'Bierstand geüpdatet!')
         ->with('successfulUpdateBody', 'Bierstand aangepast voor  ' . $Bierstand->where('id', $id)->value('Heer') . ':  ' . $req->changeDrinksAmount . " is bij " . $oldValue . " opgeteld.")
         ->with('successfulUpdateEnd', "Totaal is nu: " . $Bierstand->Bier);

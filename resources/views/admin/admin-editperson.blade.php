@@ -129,7 +129,8 @@ $(document).on('show.bs.modal','#editModal', function (e) {
     var heerId = $(e.relatedTarget).data('heer-id');
     var nameId = $(e.relatedTarget).data('name-id');
     var drinksAmount = $(e.relatedTarget).data('drinks-id');
-    var postUrl = window.location.href + "/" + heerId;
+    //remove parameters from url & get correct url to post to
+    var postUrl = window.location.href.split(/[?#]/)[0] + "/" + heerId;
 
     document.updateValueForm.setAttribute("action", postUrl);
     document.getElementById("editModalTitle").innerHTML = nameId;
