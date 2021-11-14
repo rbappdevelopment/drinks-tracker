@@ -81,13 +81,28 @@ use App\Models\Mutaties;
         <div class="modal-body">
             <div class="container-fluid">
                 <div class="row">
-                  <div class="col-md-4">Aantal:</div>
-                  <div class="col-md-4">
+                  <div class="col-md-5">Huidig aantal:</div>
+                  <div class="col-md-5">
                       <form>
-                        <input type='text' id='inputDrinks'
-                        placeholder="" value=""/>
-                      </form>
+                        <input type='text' name='inputDrinks'
+                        placeholder="" value="" disabled/>
                     </div>
+                    <div class="row">
+                        <div class="col-md-5"></div>
+                    </div>
+                    <div class="col-md-5"><br>Aantal toevoegen of aftrekken:</div>
+                    <div class="col-md-5">
+                        <br>
+                        <input type="text" name="changeDrinksAmount" maxlength="4" placeholder="Voer getal in..." value=""/>
+                        <small id="help" class="form-text text-muted">Voor aftrekken, voeg een '-' toe voorafgaand het bedrag. Bv: '-50'.</small>
+                    </div>
+                      </form>
+                      <br/>
+                      <div class="col-md-5"></div>
+                      <div class="col-md-5">
+                          <br>
+                      <button name="update" class="btn btn-primary right" onclick="">Update!</button>
+                      </div>
                 </div>
             </div>
         </div>
@@ -112,8 +127,8 @@ $(document).on('show.bs.modal','#editModal', function (e) {
     var nameId = $(e.relatedTarget).data('name-id');
     var drinksAmount = $(e.relatedTarget).data('drinks-id');
     document.getElementById("editModalTitle").innerHTML = nameId;
-    document.getElementById("inputDrinks").placeholder = drinksAmount;
-    //$(e.currentTarget).find('input[name="inputDrinks"]').val(drinksAmount); //change id of input to name to have it be value instead
+    //document.getElementById("inputDrinks").placeholder = drinksAmount;
+    $(e.currentTarget).find('input[name="inputDrinks"]').val(drinksAmount); //change id of input to name to have it be value instead
 });
 
 //Load personen from Db table Bierstand, start count with 0.
