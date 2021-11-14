@@ -19,15 +19,21 @@ Route::get('/biersysteem', [BiersysteemController::class, 'LoadBierstandData']);
 Route::post('/biersysteem/update', [BiersysteemController::class, 'UpdateBierstand']);
 
 //Admin routes
-Route::group(['middleware' => 'auth'], function(){
-    Route::group([
-        'middleware' => 'is_admin'
-    ], function(){
-        Route::get('/biersysteem/admin', [AdminController::class, 'LoadAdminPage']);
-        Route::get('/biersysteem/admin/addperson', [AdminController::class, 'LoadAdminPage_AddPerson']);
-        Route::post('/biersysteem/admin/addperson', [AdminController::class, 'AddPerson'])->name('addperson');
-    });
-});
+Route::get('/biersysteem/admin', [AdminController::class, 'LoadAdminPage']);
+Route::get('/biersysteem/admin/addperson', [AdminController::class, 'LoadAdminPage_AddPerson']);
+Route::post('/biersysteem/admin/addperson', [AdminController::class, 'AddPerson'])->name('addperson');
+Route::get('/biersysteem/admin/editperson', [AdminController::class, 'LoadAdminPage_EditPerson']);
+
+// Route::group(['middleware' => 'auth'], function(){
+//     Route::group([
+//         'middleware' => 'is_admin'
+//     ], function(){
+//         Route::get('/biersysteem/admin', [AdminController::class, 'LoadAdminPage']);
+//         Route::get('/biersysteem/admin/addperson', [AdminController::class, 'LoadAdminPage_AddPerson']);
+//         Route::post('/biersysteem/admin/addperson', [AdminController::class, 'AddPerson'])->name('addperson');
+//         Route::get('/biersysteem/admin/editperson', [AdminController::class, 'LoadAdminPage_EditPerson']);
+//     });
+// });
 
 //Authentication & authorization
 Route::group(['prefix' => 'biersysteem'], function () {

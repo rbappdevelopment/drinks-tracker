@@ -42,6 +42,12 @@ class AdminController extends Controller
         ->with('persoonadded', $req->Heer);
     }
 
+    public function LoadAdminPage_EditPerson(){
+        $bierstand = Bierstand::orderBy('TotaalOnzichtbaar', 'desc')->get();
+        $mutaties = Mutaties::orderBy('created_at', 'desc')->paginate(50);
+
+        return view('admin.admin-editperson', compact('mutaties', 'bierstand'));
+    }    
 }
 
 // user roles (for admin) --> https://www.youtube.com/watch?v=kZOgH3-0Bko

@@ -60,6 +60,9 @@
                                     <a class="dropdown-item" href="/biersysteem/admin/addperson">
                                         Persoon toevoegen <i class="fas fa-male"></i>
                                     </a>
+                                    <a class="dropdown-item" href="/biersysteem/admin/editperson">
+                                        Aanpassen (admin) <i class="fas fa-pen"></i>
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
