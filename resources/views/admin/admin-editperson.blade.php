@@ -50,7 +50,7 @@ use App\Models\Mutaties;
                                         <a class="dropdown-item" href="#editModal" data-toggle="modal" data-heer-id="{{$heer->id}}" data-name-id="{{$heer->Heer}}" data-drinks-id="{{$heer->Bier}}">
                                             Pas bierstand aan <i class="fas fa-beer"></i>
                                         </a>
-                                        <a class="dropdown-item" href="/biersysteem/admin/addperson">
+                                        <a class="dropdown-item" href="#personalMutationsModal" data-toggle="modal" data-name-id="{{$heer->Heer}}">
                                             Bekijk mutaties <i class="fas fa-table"></i>
                                         </a>
                                         <a class="dropdown-item" href="/biersysteem/admin/addperson">
@@ -98,15 +98,34 @@ use App\Models\Mutaties;
                         <input type="text" name="changeDrinksAmount" maxlength="4" placeholder="Voer getal in..." value=""/>
                         <small id="help" class="form-text text-muted">Voor aftrekken, voeg een '-' toe voorafgaand het bedrag. Bv: '-50'.</small>
                     </div>
-                        <br/>
-                        <br/>
                         <div class="col-md-5"></div>
                         <div class="col-md-5">
+                        <br/>   
                         <button type="submit" name="update" class="btn btn-primary right" onclick="">Update!</button>
                     </div>
                       </form>
                 </div>
             </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Terug</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="personalMutationsModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="personalMutationsModalTitle" name="nameId" value=""></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {{-- TODO: Show mutations specifically for this person --}}
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Terug</button>
@@ -123,7 +142,7 @@ use App\Models\Mutaties;
 @section('scripts')
 
 <script>
-//trigger when Edit modal shows
+//trigger when edit modal shows
 $(document).on('show.bs.modal','#editModal', function (e) {
     //get data-id attribute of the clicked element
     var heerId = $(e.relatedTarget).data('heer-id');
@@ -135,6 +154,13 @@ $(document).on('show.bs.modal','#editModal', function (e) {
     document.updateValueForm.setAttribute("action", postUrl);
     document.getElementById("editModalTitle").innerHTML = nameId;
     $(e.currentTarget).find('input[name="inputDrinks"]').val(drinksAmount); //change id of input to name to have it be value instead
+});
+
+//trigger when personal mutation modal shows
+$(document).on('show.bs.modal','#personalMutationsModal', function (e) {
+    //get data-id attribute of the clicked element
+    var nameId = $(e.relatedTarget).data('name-id');
+    document.getElementById("personalMutationsModalTitle").innerHTML = nameId;
 });
 
 //Load personen from Db table Bierstand, start count with 0.
