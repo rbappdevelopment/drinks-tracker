@@ -23,6 +23,7 @@ Route::get('/biersysteem/admin', [AdminController::class, 'LoadAdminPage']);
 Route::get('/biersysteem/admin/addperson', [AdminController::class, 'LoadAdminPage_AddPerson']);
 Route::post('/biersysteem/admin/addperson', [AdminController::class, 'AddPerson'])->name('addperson');
 Route::get('/biersysteem/admin/editperson', [AdminController::class, 'LoadAdminPage_EditPerson']);
+Route::post('/biersysteem/admin/editperson/{id}', [AdminController::class, 'UpdateValue'])->name('updateperson');
 
 // Route::group(['middleware' => 'auth'], function(){
 //     Route::group([

@@ -26,6 +26,19 @@ class AdminController extends Controller
         return view('admin.admin-addperson', compact('mutaties'));
     }
 
+    public function UpdateValue($id, Request $req){
+        // $Bierstand = Bierstand::where($id)->first();
+        $Bierstand = Bierstand::find($id);
+
+        echo "voor optellen: " . $Bierstand->Bier . " & er komt bij: " . $req->changeDrinksAmount;
+        $Bierstand->Bier += $req->changeDrinksAmount;
+        $Bierstand->save();
+        echo "na optellen: " . $Bierstand->Bier;
+
+        return redirect()->back()->with('successfulUpdate', 'Bierstand aangepast voor id: ' . $id . ' & totaal bier is nu ' . $Bierstand->Bier);
+        //dd("Ayy: " . $id . ", which is -> " . Bierstand::where('id', $id)->value('Heer'));
+    }
+    
     public function AddPerson(Request $req){
 
         $req->validate([

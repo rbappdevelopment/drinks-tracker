@@ -29,13 +29,13 @@ use App\Models\Mutaties;
 <tbody>
         @foreach($bierstand as $heer)
           <tr class="tr body"> {{-- Add data-toggle="modal" data-target="#mutatiesModal" to this tr for edit row entry (TODO admin screen to edit) --}}
-                  <td><a href="#" onclick="AddBeerToHeer('{{$heer->Heer}}', 1);return false;">
+                  <td>
                     @if ($loop->first)
                       <i class="fas fa-crown"></i>
                     @endif
                     {{$heer->Heer}}
-                  </a></td>
-                  <td><a href="#" onclick="AddBeerToHeer('{{$heer->Heer}}', 1);return false;">{{$heer->Bier}}</a></td>
+                  </td>
+                  <td>{{$heer->Bier}}</td>
                   <td>
                     <div class="navbar show" id="navbarSupportedContent">
                         <ul class="navbar-nav">
@@ -46,7 +46,7 @@ use App\Models\Mutaties;
                                     </a>
                                     
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="#editModal" data-toggle="modal" data-name-id="{{$heer->Heer}}" data-drinks-id="{{$heer->Bier}}">
+                                        <a class="dropdown-item" href="#editModal" data-toggle="modal" data-heer-id="{{$heer->id}}" data-name-id="{{$heer->Heer}}" data-drinks-id="{{$heer->Bier}}">
                                             Pas bierstand aan <i class="fas fa-beer"></i>
                                         </a>
                                         <a class="dropdown-item" href="/biersysteem/admin/addperson">
@@ -83,7 +83,8 @@ use App\Models\Mutaties;
                 <div class="row">
                   <div class="col-md-5">Huidig aantal:</div>
                   <div class="col-md-5">
-                      <form>
+                      <form name="updateValueForm" method="post" action="">
+                        @csrf
                         <input type='text' name='inputDrinks'
                         placeholder="" value="" disabled/>
                     </div>
@@ -96,13 +97,13 @@ use App\Models\Mutaties;
                         <input type="text" name="changeDrinksAmount" maxlength="4" placeholder="Voer getal in..." value=""/>
                         <small id="help" class="form-text text-muted">Voor aftrekken, voeg een '-' toe voorafgaand het bedrag. Bv: '-50'.</small>
                     </div>
+                        <br/>
+                        <br/>
+                        <div class="col-md-5"></div>
+                        <div class="col-md-5">
+                        <button type="submit" name="update" class="btn btn-primary right" onclick="">Update!</button>
+                    </div>
                       </form>
-                      <br/>
-                      <div class="col-md-5"></div>
-                      <div class="col-md-5">
-                          <br>
-                      <button name="update" class="btn btn-primary right" onclick="">Update!</button>
-                      </div>
                 </div>
             </div>
         </div>
@@ -124,10 +125,13 @@ use App\Models\Mutaties;
 //trigger when Edit modal shows
 $(document).on('show.bs.modal','#editModal', function (e) {
     //get data-id attribute of the clicked element
+    var heerId = $(e.relatedTarget).data('heer-id');
     var nameId = $(e.relatedTarget).data('name-id');
     var drinksAmount = $(e.relatedTarget).data('drinks-id');
+    var postUrl = window.location.href + "/" + heerId;
+
+    document.updateValueForm.setAttribute("action", postUrl);
     document.getElementById("editModalTitle").innerHTML = nameId;
-    //document.getElementById("inputDrinks").placeholder = drinksAmount;
     $(e.currentTarget).find('input[name="inputDrinks"]').val(drinksAmount); //change id of input to name to have it be value instead
 });
 
