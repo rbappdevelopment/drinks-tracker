@@ -9,15 +9,16 @@ use App\Models\Bierstand;
 use App\Models\Mutaties;
 ?>
 
+<h1 style="padding-left: 350px">ADMIN</h1>  
 
-{{-- TODO: Deze session werkend krijgen -> laten zien op wie is afgestreept. --}}
-@if (session('status'))
+@if (session('successfulUpdateTitle'))
     <div class="alert alert-success">
-       <p> {{ session('status') }} </p>
+       <b> {{ session('successfulUpdateTitle') }} </b>
+       <p> {{ session('successfulUpdateBody') }} </p>
+       {{ session('successfulUpdateEnd') }}
     </div>
 @endif
 
-<h1 style="padding-left: 350px">ADMIN</h1>    
 <table>
     <thead>
         <tr>

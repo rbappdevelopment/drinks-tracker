@@ -31,12 +31,15 @@ class AdminController extends Controller
         $Bierstand = Bierstand::find($id);
 
         echo "voor optellen: " . $Bierstand->Bier . " & er komt bij: " . $req->changeDrinksAmount;
+        $oldValue = $Bierstand->Bier;
         $Bierstand->Bier += $req->changeDrinksAmount;
         $Bierstand->save();
         echo "na optellen: " . $Bierstand->Bier;
 
-        return redirect()->back()->with('successfulUpdate', 'Bierstand aangepast voor id: ' . $id . ' & totaal bier is nu ' . $Bierstand->Bier);
-        //dd("Ayy: " . $id . ", which is -> " . Bierstand::where('id', $id)->value('Heer'));
+        return redirect()->back()
+        ->with('successfulUpdateTitle', 'Bierstand geüpdatet!')
+        ->with('successfulUpdateBody', 'Bierstand aangepast voor  ' . $Bierstand->where('id', $id)->value('Heer') . ':  ' . $req->changeDrinksAmount . " is bij " . $oldValue . " opgeteld.")
+        ->with('successfulUpdateEnd', "Totaal is nu: " . $Bierstand->Bier);
     }
     
     public function AddPerson(Request $req){
