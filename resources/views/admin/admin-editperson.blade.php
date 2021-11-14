@@ -9,6 +9,7 @@ use App\Models\Bierstand;
 use App\Models\Mutaties;
 ?>
 
+@if(DB::table('users')->where('id', auth()->user()->id)->value('is_admin'))
 <h1 style="padding-left: 350px">ADMIN</h1>  
 
 @if (session('successfulUpdateTitle'))
@@ -137,6 +138,13 @@ use App\Models\Mutaties;
 <br>
 <button name="submit" class="btn btn-primary" onclick="return PostData()">Submit!</button>
 
+@else
+<br>
+<br>
+<h5 style="text-align: center">Je moet admin zijn om deze pagina te bereiken.</h5>
+<hr>
+@endif
+
 @endsection
 
 @section('scripts')
@@ -204,7 +212,7 @@ $.ajaxSetup({
             url  : "biersysteem/update",
             data : { Personen }, //passing new bierstand values
             success: function(res){
-                        window.location = "/biersysteem";
+                        //window.location = "/biersysteem";
                     },
         error: function(jqXHR, textStatus, errorThrown) {
            console.log(textStatus, errorThrown);

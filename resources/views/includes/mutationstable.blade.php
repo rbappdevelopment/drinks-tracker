@@ -15,12 +15,13 @@ use App\Models\Bierstand;
     </thead>
 <tbody>
         @foreach($mutaties as $mutatie)
-        <tr class="tr mutationsbody"> {{-- Add data-toggle="modal" data-target="#mutatiesModal" to this tr for edit row entry (TODO admin screen to edit) --}}
+        <tr class="tr mutationsbody" style="@if ($mutatie->IsAdminUpdate) background: lightgreen @endif"> {{-- Add data-toggle="modal" data-target="#mutatiesModal" to this tr for edit row entry (TODO admin screen to edit) --}}
           <td id="">@php $subjectName = Bierstand::where('id', $mutatie->HeerId)->value('Heer') @endphp {{ $subjectName }}</td>
           <td id="">{{$mutatie->AantalBier}}</td>
           <td id="">{{$mutatie->TotaalBierNaMutatie}}</td>
           <td id="">@php $subjectedByName = Bierstand::where('id', $mutatie->GemuteerdDoorHeer)->value('Heer') @endphp {{ $subjectedByName }}</td>
           <td id="">{{$mutatie->created_at}}</td>
+          @if ($mutatie->IsAdminUpdate) <td style="text-align: center"> Admin update </td>@endif
         </tr>
         @endforeach
 </tbody>
