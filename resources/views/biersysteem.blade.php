@@ -17,10 +17,17 @@ use App\Models\Mutaties;
     </div>
 @endif
 
-<div id="ShowUpdateFail" style="display: none;">
+<div id="showUpdateFail" style="display: none;">
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <strong>Fout: </strong> er is iets misgegaan, het afstrepen is <b>niet</b> opgeslagen!
         <br>Check je verbinding en probeer het opnieuw!
+    </div>
+</div>
+
+<div id="sendRequestOverlay" style="display: none;">
+    <div id="sendRequestOverlaySpinner" style="display: none;">
+        <div id="loading-spinner" class="spinner-border text-secondary" role="status" style="display: block; margin-left: auto; margin-right: auto;">
+        </div>
     </div>
 </div>
 
@@ -53,7 +60,7 @@ use App\Models\Mutaties;
 <div id="result"></div> 
 
 <br>
-<button name="submit" class="btn btn-primary" onclick="return PostData()">Submit!</button>
+<button name="submit" class="btn btn-primary" style="float: right" onclick="return PostData()">Afstrepen!</button>
 
 @endsection
 
@@ -64,9 +71,6 @@ use App\Models\Mutaties;
     var Personen = {
         Heren:[]
     };
-
-//hide alerts on initial page load
-//$('#ShowUpdateFail').hide();
 
 @foreach($bierstand as $heer)  
     Personen.Heren.push({ 
@@ -104,15 +108,18 @@ $.ajaxSetup({
             url  : "biersysteem/update",
             data : { Personen }, //passing new bierstand values
             beforeSend: function(){
-                $('#ShowUpdateFail').hide();
+                $('#sendRequestOverlay').show();
+                $('#sendRequestOverlaySpinner').show();
+                $('#showUpdateFail').hide();
             },
             success: function(res){
-                        window.location = "/biersysteem";
-                    },
-        error: function(jqXHR, textStatus, errorThrown) {
-            $('#ShowUpdateFail').show();
-            console.log(textStatus, errorThrown);
-        }
+                window.location = "/biersysteem";
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                $('#showUpdateFail').show();
+                window.scrollTo(0, 0);
+                console.log(textStatus, errorThrown);
+            }
         });
 }
 </script>
