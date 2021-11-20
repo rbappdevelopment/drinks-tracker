@@ -5,6 +5,7 @@
 <link href="/css/app.css" rel="stylesheet" type="text/css">
 
 <?php use \App\Http\Controllers\BiersysteemController;
+use \App\Http\Controllers\AdminController;
 use App\Models\Bierstand;
 use App\Models\Mutaties;
 ?>
@@ -51,7 +52,7 @@ use App\Models\Mutaties;
                                         <a class="dropdown-item" href="#editModal" data-toggle="modal" data-heer-id="{{$heer->id}}" data-name-id="{{$heer->Heer}}" data-drinks-id="{{$heer->Bier}}">
                                             Pas bierstand aan <i class="fas fa-beer"></i>
                                         </a>
-                                        <a class="dropdown-item" href="#personalMutationsModal" data-toggle="modal" data-name-id="{{$heer->Heer}}">
+                                        <a class="dropdown-item" href="#personalMutationsModal" data-toggle="modal" data-name-id="{{$heer->Heer}}" onclick="return GetPersonalMutations({{$heer->id}})">
                                             Bekijk mutaties <i class="fas fa-table"></i>
                                         </a>
                                         <a class="dropdown-item" href="/biersysteem/admin/addperson">
@@ -121,11 +122,14 @@ use App\Models\Mutaties;
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="personalMutationsModalTitle" name="nameId" value=""></h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
+        <div id="loading-spinner" class="spinner-border text-primary" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div id="modal-body">
           {{-- TODO: Show mutations specifically for this person --}}
         </div>
         <div class="modal-footer">
@@ -171,34 +175,8 @@ $(document).on('show.bs.modal','#personalMutationsModal', function (e) {
     document.getElementById("personalMutationsModalTitle").innerHTML = nameId;
 });
 
-//Load personen from Db table Bierstand, start count with 0.
-    var Personen = {
-        Heren:[]
-    };
-
-@foreach($bierstand as $heer)  
-    Personen.Heren.push({ 
-        "Heer" : "{{ $heer->Heer }}",
-        "Afgestreept"  : 0
-    });
-@endforeach
-
-console.log("Gelade data uit Db: " + JSON.stringify(Personen));
-
-function AddBeerToHeer(heer, amount){
-
-    //update value in object array & increment drinkcount
-    var persoonBeverageCount = Personen.Heren.find(persoon => persoon.Heer === heer)['Afgestreept'] += amount;
-
-    //update view
-    document.getElementById('localBierCount'+heer).innerHTML = persoonBeverageCount;
-    console.log("Tapped: " + heer + ", added on " + 'localBierCount'+heer+". Total bier voor deze heer: " + persoonBeverageCount);
-    console.log("Personen array inhoud:" + JSON.stringify(Personen));     
-}
-
-function PostData()
-{
-console.log("Submitting data: " + Personen);
+function GetPersonalMutations(PersonId) {
+console.log("Submitting data: " + PersonId);
 
 $.ajaxSetup({
       headers: {
@@ -208,16 +186,24 @@ $.ajaxSetup({
 
     //send data
     $.ajax({
-            type : "POST",
-            url  : "biersysteem/update",
-            data : { Personen }, //passing new bierstand values
+            type : "GET",
+            url  : "/biersysteem/admin/person/" + PersonId + "/mutations",
+            cache: false,
+            beforeSend: function(){
+                $('#loading-spinner').show();
+                $('#modal-body').html(null);
+            },
             success: function(res){
-                        //window.location = "/biersysteem";
-                    },
+              $('#modal-body').html(res);
+              //window.location = "/biersysteem";
+            },
+            complete: function(){
+                $('#loading-spinner').hide();
+            },
         error: function(jqXHR, textStatus, errorThrown) {
            console.log(textStatus, errorThrown);
         }
         });
-}
+  }
 </script>
 @endsection

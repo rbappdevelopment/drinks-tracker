@@ -101,9 +101,7 @@
           </button>
         </div>
         <div class="modal-body">
-          {{-- TODO: Hier de mutaties tabel laden, order by date desc --}}
           @include('includes.mutationstable')
-
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Terug</button>

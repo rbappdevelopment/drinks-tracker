@@ -24,6 +24,7 @@ Route::get('/biersysteem/admin/addperson', [AdminController::class, 'LoadAdminPa
 Route::post('/biersysteem/admin/addperson', [AdminController::class, 'AddPerson'])->name('addperson');
 Route::get('/biersysteem/admin/editperson', [AdminController::class, 'LoadAdminPage_EditPerson']);
 Route::post('/biersysteem/admin/editperson/{id}', [AdminController::class, 'UpdateValue'])->name('updateperson');
+Route::get('/biersysteem/admin/person/{id}/mutations', [AdminController::class, 'GetMutationsForUser']);
 
 // Route::group(['middleware' => 'auth'], function(){
 //     Route::group([

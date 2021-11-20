@@ -26,6 +26,11 @@ class AdminController extends Controller
         return view('admin.admin-addperson', compact('mutaties'));
     }
 
+    public function GetMutationsForUser($id){
+        $mutaties = Mutaties::where('HeerId', $id)->orderBy('created_at', 'desc')->paginate(50);
+        return view('includes.mutationstable', compact('mutaties'));
+    }
+
     public function UpdateValue($id, Request $req){
         $Bierstand = Bierstand::find($id);
         $oldValue = $Bierstand->Bier;
@@ -74,5 +79,3 @@ class AdminController extends Controller
         return view('admin.admin-editperson', compact('mutaties', 'bierstand'));
     }    
 }
-
-// user roles (for admin) --> https://www.youtube.com/watch?v=kZOgH3-0Bko
