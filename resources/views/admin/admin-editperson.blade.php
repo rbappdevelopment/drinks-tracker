@@ -126,7 +126,7 @@ use App\Models\Mutaties;
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div id="loading-spinner" class="spinner-border text-primary" role="status">
+        <div id="loading-spinner" class="spinner-border text-primary" role="status" style="display: block; margin-left: auto; margin-right: auto;">
           <span class="sr-only">Loading...</span>
         </div>
         <div id="modal-body">
@@ -202,6 +202,7 @@ $.ajaxSetup({
             },
         error: function(jqXHR, textStatus, errorThrown) {
            console.log(textStatus, errorThrown);
+           $('#modal-body').html("<br>Er is een <b>fout</b> opgetreden, waardoor de mutaties niet konden worden opgehaald.<br>Check je verbinding en probeer het opnieuw.<br>");
         }
         });
   }

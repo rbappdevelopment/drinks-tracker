@@ -17,6 +17,13 @@ use App\Models\Mutaties;
     </div>
 @endif
 
+<div id="ShowUpdateFail" style="display: none;">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Fout: </strong> er is iets misgegaan, het afstrepen is <b>niet</b> opgeslagen!
+        <br>Check je verbinding en probeer het opnieuw!
+    </div>
+</div>
+
 <table>
     <thead>
         <tr>
@@ -58,6 +65,9 @@ use App\Models\Mutaties;
         Heren:[]
     };
 
+//hide alerts on initial page load
+//$('#ShowUpdateFail').hide();
+
 @foreach($bierstand as $heer)  
     Personen.Heren.push({ 
         "Heer" : "{{ $heer->Heer }}",
@@ -93,11 +103,15 @@ $.ajaxSetup({
             type : "POST",
             url  : "biersysteem/update",
             data : { Personen }, //passing new bierstand values
+            beforeSend: function(){
+                $('#ShowUpdateFail').hide();
+            },
             success: function(res){
                         window.location = "/biersysteem";
                     },
         error: function(jqXHR, textStatus, errorThrown) {
-           console.log(textStatus, errorThrown);
+            $('#ShowUpdateFail').show();
+            console.log(textStatus, errorThrown);
         }
         });
 }
