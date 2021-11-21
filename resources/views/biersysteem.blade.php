@@ -17,6 +17,12 @@ use App\Models\Mutaties;
     </div>
 @endif
 
+<div id="showUpdateSuccess" style="display: none;">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Succes!</strong> Er is afgestreept!
+    </div>
+</div>
+
 <div id="showUpdateFail" style="display: none;">
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <strong>Fout: </strong> er is iets misgegaan, het afstrepen is <b>niet</b> opgeslagen!
@@ -42,7 +48,7 @@ use App\Models\Mutaties;
     </thead>
 <tbody>
         @foreach($bierstand as $heer)
-          <tr class="tr body"> {{-- Add data-toggle="modal" data-target="#mutatiesModal" to this tr for edit row entry (TODO admin screen to edit) --}}
+          <tr class="tr body">
                   <td><a href="#" onclick="AddBeerToHeer('{{$heer->Heer}}', 1);return false;">
                     @if ($loop->first)
                       <i class="fas fa-crown"></i>
@@ -57,11 +63,14 @@ use App\Models\Mutaties;
 </tbody>
 </table>
 
-<div id="result"></div> 
+<div class="footer">
+    <p id="EditList" style="padding-top: 10px"></p>
+    <button name="submit" class="btn btn-primary" style="float: right;" onclick="return PostData()">Afstrepen!</button>
+</div>
 
 <br>
-<button name="submit" class="btn btn-primary" style="float: right" onclick="return PostData()">Afstrepen!</button>
-
+<br>
+<div class="enlargePage"></div>
 @endsection
 
 @section('scripts')
@@ -79,17 +88,33 @@ use App\Models\Mutaties;
     });
 @endforeach
 
+$(document).ready(function() {
+    if (window.location.href.indexOf("?success") > -1) {
+        $('#showUpdateSuccess').show();
+    }
+});
+
 console.log("Gelade data uit Db: " + JSON.stringify(Personen));
 
 function AddBeerToHeer(heer, amount){
-
     //update value in object array & increment drinkcount
     var persoonBeverageCount = Personen.Heren.find(persoon => persoon.Heer === heer)['Afgestreept'] += amount;
 
     //update view
     document.getElementById('localBierCount'+heer).innerHTML = persoonBeverageCount;
     console.log("Tapped: " + heer + ", added on " + 'localBierCount'+heer+". Total bier voor deze heer: " + persoonBeverageCount);
-    console.log("Personen array inhoud:" + JSON.stringify(Personen));     
+    console.log("Personen array inhoud:" + JSON.stringify(Personen));
+    
+    //add to overview on footer;
+    heerNoSpace = heer.replace(/ /g,'');
+    if($("#" + heerNoSpace).length){
+        //update text to footer
+        $("#" + heerNoSpace).text(heer + ": " + persoonBeverageCount);
+    }else{
+        //add text to footer
+        $("p").add("<span id=" + heerNoSpace + ">" + heer + ": " + amount + "</span><br>").appendTo("#EditList");
+        $(".enlargePage").add("<br>").appendTo(".enlargePage");
+    }
 }
 
 function PostData()
@@ -110,12 +135,16 @@ $.ajaxSetup({
             beforeSend: function(){
                 $('#sendRequestOverlay').show();
                 $('#sendRequestOverlaySpinner').show();
+                $('.footer').hide();
                 $('#showUpdateFail').hide();
             },
             success: function(res){
-                window.location = "/biersysteem";
+                window.location = "/biersysteem?success";
             },
             error: function(jqXHR, textStatus, errorThrown) {
+                $('#sendRequestOverlay').hide();
+                $('#sendRequestOverlaySpinner').hide();
+                $('.footer').show();
                 $('#showUpdateFail').show();
                 window.scrollTo(0, 0);
                 console.log(textStatus, errorThrown);

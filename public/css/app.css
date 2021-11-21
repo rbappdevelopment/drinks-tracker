@@ -10281,3 +10281,12 @@ body{
 .hide{
   visibility: hidden;
 }
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: lightcyan;
+  text-align: center;
+}
