@@ -10283,10 +10283,13 @@ body{
 }
 
 .footer {
+  border-width: 5px 0px 0px 0px;
+  border-style: solid;
   position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
   background-color: lightcyan;
-  text-align: center;
+  text-align: right;
+  padding-right: 15px;
 }

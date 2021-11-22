@@ -64,10 +64,13 @@ use App\Models\Mutaties;
 </table>
 
 <div class="footer">
-    <p id="EditList" style="padding-top: 10px"></p>
-    <button name="submit" class="btn btn-primary" style="float: right;" onclick="return PostData()">Afstrepen!</button>
+    <b id="showTotalStatic" style="display: none;">Totaal:</b>
+    <br>
+    <span id="EditList"></span>
+    <button name="submit" class="btn btn-primary" style="float: right; margin: 0px 15px 15px 0px;" onclick="return PostData()">Afstrepen!</button>
 </div>
 
+<br>
 <br>
 <br>
 <div class="enlargePage"></div>
@@ -115,6 +118,7 @@ function AddBeerToHeer(heer, amount){
         $("p").add("<span id=" + heerNoSpace + ">" + heer + ": " + amount + "</span><br>").appendTo("#EditList");
         $(".enlargePage").add("<br>").appendTo(".enlargePage");
     }
+    $('#showTotalStatic').show();
 }
 
 function PostData()
@@ -133,6 +137,7 @@ $.ajaxSetup({
             url  : "biersysteem/update",
             data : { Personen }, //passing new bierstand values
             beforeSend: function(){
+                window.scrollTo(0, 0);
                 $('#sendRequestOverlay').show();
                 $('#sendRequestOverlaySpinner').show();
                 $('.footer').hide();

@@ -20,6 +20,11 @@ use App\Models\Mutaties;
        {{ session('successfulUpdateEnd') }}
     </div>
 @endif
+@if (session('failUpdateTitle'))
+    <div class="alert alert-danger">
+       <b> {{ session('failUpdateTitle') }} </b>
+    </div>
+@endif
 
 <table>
     <thead>
@@ -97,13 +102,13 @@ use App\Models\Mutaties;
                     <div class="col-md-5"><br>Aantal toevoegen of aftrekken:</div>
                     <div class="col-md-5">
                         <br>
-                        <input type="text" name="changeDrinksAmount" maxlength="4" placeholder="Voer getal in..." value=""/>
+                        <input type="text" id="changeDrinksAmount" name="changeDrinksAmount" maxlength="4" placeholder="Voer getal in..." value=""/>
                         <small id="help" class="form-text text-muted">Voor aftrekken, voeg een '-' toe voorafgaand het bedrag. Bv: '-50'.</small>
                     </div>
                         <div class="col-md-5"></div>
                         <div class="col-md-5">
                         <br/>   
-                        <button type="submit" name="update" class="btn btn-primary right" onclick="">Update!</button>
+                        <button type="submit" name="update" class="btn btn-primary right" onclick="this.form.submit(); this.disabled = true;">Update!</button>
                     </div>
                       </form>
                 </div>
@@ -139,9 +144,6 @@ use App\Models\Mutaties;
     </div>
   </div>
 
-<br>
-<button name="submit" class="btn btn-primary" onclick="return PostData()">Submit!</button>
-
 @else
 <br>
 <br>
@@ -154,6 +156,10 @@ use App\Models\Mutaties;
 @section('scripts')
 
 <script>
+$('#updateValueForm').one('submit', function() {
+    $(this).find('input[type="submit"]').attr('disabled','disabled');
+});
+
 //trigger when edit modal shows
 $(document).on('show.bs.modal','#editModal', function (e) {
     //get data-id attribute of the clicked element
@@ -168,12 +174,17 @@ $(document).on('show.bs.modal','#editModal', function (e) {
     $(e.currentTarget).find('input[name="inputDrinks"]').val(drinksAmount); //change id of input to name to have it be value instead
 });
 
+$(document).on('hidden.bs.modal','#editModal', function (e) {
+    document.getElementById("changeDrinksAmount").value = "";
+});
+
 //trigger when personal mutation modal shows
 $(document).on('show.bs.modal','#personalMutationsModal', function (e) {
     //get data-id attribute of the clicked element
     var nameId = $(e.relatedTarget).data('name-id');
     document.getElementById("personalMutationsModalTitle").innerHTML = nameId;
 });
+
 
 function GetPersonalMutations(PersonId) {
 console.log("Submitting data: " + PersonId);
@@ -184,7 +195,6 @@ $.ajaxSetup({
         }
     });  
 
-    //send data
     $.ajax({
             type : "GET",
             url  : "/biersysteem/admin/person/" + PersonId + "/mutations",
@@ -195,7 +205,6 @@ $.ajaxSetup({
             },
             success: function(res){
               $('#modal-body').html(res);
-              //window.location = "/biersysteem";
             },
             complete: function(){
                 $('#loading-spinner').hide();

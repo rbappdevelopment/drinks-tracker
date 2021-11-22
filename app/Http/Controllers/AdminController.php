@@ -32,23 +32,31 @@ class AdminController extends Controller
     }
 
     public function UpdateValue($id, Request $req){
-        $Bierstand = Bierstand::find($id);
-        $oldValue = $Bierstand->Bier;
-        $Bierstand->Bier += $req->changeDrinksAmount;
-        $Bierstand->save();
+        try {
+            $Bierstand = Bierstand::find($id);
+            $oldValue = $Bierstand->Bier;
+            $Bierstand->Bier += $req->changeDrinksAmount;
+            $Bierstand->save();
 
-        //log into db table Mutaties
-        $mutatie = new Mutaties;
-        $mutatie->HeerId = $id;
-        if($req->changeDrinksAmount<0){
-            $mutatie->AantalBier = $req->changeDrinksAmount;
-        }else{
-            $mutatie->AantalBier = $req->changeDrinksAmount;
+            //log into db table Mutaties
+            $mutatie = new Mutaties;
+            $mutatie->HeerId = $id;
+            if($req->changeDrinksAmount<0){
+                $mutatie->AantalBier = $req->changeDrinksAmount;
+            }else{
+                $mutatie->AantalBier = $req->changeDrinksAmount;
+            }
+            $mutatie->TotaalBierNaMutatie = $Bierstand->Bier;
+            $mutatie->GemuteerdDoorHeer = auth()->user()->id; //TODO: Needs to be correlated with Bierstand table
+            $mutatie->IsAdminUpdate = true;
+            $mutatie->save();
         }
-        $mutatie->TotaalBierNaMutatie = $Bierstand->Bier;
-        $mutatie->GemuteerdDoorHeer = auth()->user()->id; //TODO: Needs to be correlated with Bierstand table
-        $mutatie->IsAdminUpdate = true;
-        $mutatie->save();
+        catch (\Exception $ex){
+            report($ex);
+
+            return redirect('biersysteem/admin/editperson')
+            ->with('failUpdateTitle', 'Er is iets fout gegaan! Bierstand is niet geüpdatet! Check je verbinding en probeer het opnieuw! Bij twijfel, check de mutaties rechtsbovenin!');
+        }
 
         return redirect('biersysteem/admin/editperson')
         ->with('successfulUpdateTitle', 'Bierstand geüpdatet!')
