@@ -74,7 +74,7 @@ class BiersysteemController extends Controller
                     $mutatie->HeerId = Bierstand::where('Heer', $name["Heer"])->value('id');
                     $mutatie->AantalBier = -1*$name["Afgestreept"];
                     $mutatie->TotaalBierNaMutatie = $dataBier;
-                    $mutatie->GemuteerdDoorHeer = auth()->user()->id; //TODO: Needs to be correlated with Bierstand table
+                    $mutatie->GemuteerdDoorHeer = auth()->user()->name;
                     $mutatie->save();
                 }
     }

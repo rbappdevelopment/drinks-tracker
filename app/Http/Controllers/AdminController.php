@@ -47,7 +47,7 @@ class AdminController extends Controller
                 $mutatie->AantalBier = $req->changeDrinksAmount;
             }
             $mutatie->TotaalBierNaMutatie = $Bierstand->Bier;
-            $mutatie->GemuteerdDoorHeer = auth()->user()->id; //TODO: Needs to be correlated with Bierstand table
+            $mutatie->GemuteerdDoorHeer = auth()->user()->name;
             $mutatie->IsAdminUpdate = true;
             $mutatie->save();
         }
@@ -55,7 +55,7 @@ class AdminController extends Controller
             report($ex);
 
             return redirect('biersysteem/admin/editperson')
-            ->with('failUpdateTitle', 'Er is iets fout gegaan! Bierstand is niet geüpdatet! Check je verbinding en probeer het opnieuw! Bij twijfel, check de mutaties rechtsbovenin!');
+            ->with('failUpdateTitle', 'Er is iets fout gegaan!' . $ex . 'Bierstand is niet geüpdatet! Check je verbinding en probeer het opnieuw! Bij twijfel, check de mutaties rechtsbovenin!');
         }
 
         return redirect('biersysteem/admin/editperson')
@@ -82,6 +82,24 @@ class AdminController extends Controller
         return redirect('biersysteem/admin/editperson')
         ->with('successfulNameTitle', 'Naam geüpdatet!')
         ->with('successfulNameBody', 'Naam is aangepast van  ' . $oldValue . ' naar  ' . $Bierstand->Heer . '.');
+    }
+
+    public function DeletePerson($id, Request $req){
+        try {
+            $oldName = Bierstand::where('id', $id)->value('Heer');
+            $Bierstand = Bierstand::where('id', $id)->delete();
+        }
+        catch (\Exception $ex){
+            report($ex);
+
+            return redirect('biersysteem/admin/editperson')
+            ->with('failDeleteTitle', 'Er is iets fout gegaan: ')
+            ->with('failDeleteBody', 'Persoon is niet verwijderd! Check je verbinding en probeer het opnieuw.');
+        }
+
+        return redirect('biersysteem/admin/editperson')
+        ->with('successfulDeleteTitle', 'Succesvol persoon verwijderd: ')
+        ->with('successfulDeleteBody', $oldName . '.');
     }
 
     public function AddPerson(Request $req){

@@ -19,7 +19,7 @@ use App\Models\Bierstand;
           <td id="">@php $subjectName = Bierstand::where('id', $mutatie->HeerId)->value('Heer') @endphp {{ $subjectName }}</td>
           <td id="">{{$mutatie->AantalBier}}</td>
           <td id="">{{$mutatie->TotaalBierNaMutatie}}</td>
-          <td id="">@php $subjectedByName = Bierstand::where('id', $mutatie->GemuteerdDoorHeer)->value('Heer') @endphp {{ $subjectedByName }}</td>
+          <td id="">{{$mutatie->GemuteerdDoorHeer}}</td>
           <td id="">{{$mutatie->created_at}}</td>
           @if ($mutatie->IsAdminUpdate) <td style="text-align: center"> Admin update </td>@endif
         </tr>

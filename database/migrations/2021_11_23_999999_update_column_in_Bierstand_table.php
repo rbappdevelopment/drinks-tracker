@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddIsadminToUsersTable extends Migration
+class UpdateColumnInBierstandTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddIsadminToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->integer('is_admin');
+        Schema::table('Mutaties', function (Blueprint $table) {
+            $table->string('GemuteerdDoorHeer', 30)->change();
         });
     }
 

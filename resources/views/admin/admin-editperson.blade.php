@@ -30,12 +30,23 @@ use App\Models\Mutaties;
     <div class="alert alert-success">
        <b> {{ session('successfulNameTitle') }} </b>
        <p> {{ session('successfulNameBody') }} </p>
-       {{ session('successfulNameEnd') }}
     </div>
 @endif
 @if (session('failNameTitle'))
     <div class="alert alert-danger">
        <b> {{ session('failNameTitle') }} </b>
+    </div>
+@endif
+@if (session('successfulDeleteTitle'))
+    <div class="alert alert-success">
+       <b> {{ session('successfulDeleteTitle') }} </b>
+       {{ session('successfulDeleteBody') }}
+    </div>
+@endif
+@if (session('failDeleteTitle'))
+    <div class="alert alert-danger">
+       <b> {{ session('failDeleteTitle') }} </b>
+       {{ session('failDeleteBody') }}
     </div>
 @endif
 {{-- //////////// end alerts //////////// --}}
@@ -77,7 +88,7 @@ use App\Models\Mutaties;
                                         <a class="dropdown-item" href="#editNameModal" data-toggle="modal" data-heer-id="{{$heer->id}}" data-name-id="{{$heer->Heer}}">
                                             Pas naam aan <i class="fas fa-pen"></i>
                                         </a>
-                                        <a class="dropdown-item" href="/biersysteem/admin/editperson">
+                                        <a class="dropdown-item" href="#deletePersonModal" data-toggle="modal" data-heer-id="{{$heer->id}}" data-name-id="{{$heer->Heer}}">
                                             Verwijder persoon <i class="fas fa-user-slash"></i>
                                         </a>
                                     </div>
@@ -202,6 +213,38 @@ use App\Models\Mutaties;
     </div>
   </div>
 
+  <!-- Modal -->
+  <div class="modal fade" id="deletePersonModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deletePersonModalTitle" name="nameId" value=""></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="container-fluid">
+                <div class="row">
+                      <form name="deletePersonForm" method="post" action="">
+                        @csrf
+                    </div>
+                    <div class="col-md-5">Weet je zeker dat je <input type='text' id='deletePerson' name='deletePerson' placeholder="" value="" disabled/><b></b> wil verwijderen?</div>
+                        <div class="col-md-5">Dit kan niet meer ongedaan worden gemaakt!</div>
+                        <br/>   
+                        <button type="submit" name="update" class="btn btn-primary red" onclick="this.form.submit(); this.disabled = true;">Verwijderen</button>
+                    </div>
+                      </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Terug</button>
+                </div>
+              </div>
+            </div>
+      </div>
+    </div>
+  </div>
+
 @else
 <br>
 <br>
@@ -258,6 +301,19 @@ $(document).on('show.bs.modal','#editNameModal', function (e) {
 
 $(document).on('hidden.bs.modal','#editNameModal', function (e) {
     document.getElementById("changeName").value = "";
+});
+
+//trigger when deletePerson modal shows
+$(document).on('show.bs.modal','#deletePersonModal', function (e) {
+    //get data-id attribute of the clicked element
+    var heerId = $(e.relatedTarget).data('heer-id');
+    var nameId = $(e.relatedTarget).data('name-id');
+    //remove parameters from url & get correct url to post to
+    var postUrl = window.location.href.split(/[?#]/)[0] + "/" + heerId + "/delete";
+
+    document.deletePersonForm.setAttribute("action", postUrl);
+    document.getElementById("deletePersonModalTitle").innerHTML = nameId;
+    $(e.currentTarget).find('input[name="deletePerson"]').val(nameId);
 });
 
 function GetPersonalMutations(PersonId) {
