@@ -64,6 +64,26 @@ class AdminController extends Controller
         ->with('successfulUpdateEnd', "Totaal is nu: " . $Bierstand->Bier);
     }
     
+    public function UpdateName($id, Request $req){
+        try {
+            $Bierstand = Bierstand::find($id);
+            $oldValue = $Bierstand->Heer;
+            $Bierstand->Heer = $req->changeName;
+            $Bierstand->save();
+        }
+        catch (\Exception $ex){
+            report($ex);
+
+            return redirect('biersysteem/admin/editperson')
+            ->with('failNameTitle', 'Er is iets fout gegaan:')
+            ->with('failNameBody', 'Naam is niet geüpdatet! Check je verbinding en probeer het opnieuw.');
+        }
+
+        return redirect('biersysteem/admin/editperson')
+        ->with('successfulNameTitle', 'Naam geüpdatet!')
+        ->with('successfulNameBody', 'Naam is aangepast van  ' . $oldValue . ' naar  ' . $Bierstand->Heer . '.');
+    }
+
     public function AddPerson(Request $req){
 
         $req->validate([
