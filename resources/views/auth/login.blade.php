@@ -84,7 +84,9 @@
         <div class="modal-body" style="text-align: center">
             Ben je je wachtwoord vergeten en/of kan je niet meer kan inloggen?
             <br><br>
-            Contacteer dan Rian om het te laten resetten. (Kost je slechts één kratje pils!)
+            Contacteer dan Rian om het te laten resetten.
+            <br>
+            (Kost je slechts één kratje pils!)
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Terug</button>
