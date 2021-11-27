@@ -13,13 +13,6 @@ class AdminController extends Controller
         $this->middleware('auth');
     }
 
-    public function LoadAdminPage(){
-        //Load mutaties for mutaties button in header
-        $mutaties = Mutaties::orderBy('created_at', 'desc')->paginate(50);
-
-        return view('admin.admin', compact('mutaties'));
-    }
-
     public function LoadAdminPage_AddPerson(){
         $mutaties = Mutaties::orderBy('created_at', 'desc')->paginate(50);
 
