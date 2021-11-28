@@ -10289,7 +10289,9 @@ body{
   left: 0;
   bottom: 0;
   width: 100%;
-  background-color: lightcyan;
+  background-color: #d3edff;
+  opacity: 1;
+  background: repeating-linear-gradient( -45deg, #ffffff, #ffffff 8.5px, #d3edff 8.5px, #d3edff 42.5px );
   text-align: right;
   padding-right: 15px;
 }
