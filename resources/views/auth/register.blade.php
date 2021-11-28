@@ -23,8 +23,8 @@
                                 @enderror
                             </div>
                         </div>
-                        <small id="help" class="form-text text-muted" style="float: right">Je naam wordt gebruikt om te registreren wie er op dat moment afstreept.</small>
-                        <br><br>
+                        <small id="help" class="form-text text-muted" style="text-align: center">Je naam wordt gebruikt om te registreren wie er op dat moment afstreept.</small>
+                        <br>
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-mailadres') }}</label>
 
@@ -61,6 +61,21 @@
                             </div>
                         </div>
 
+                        <hr>
+                        <div class="form-group row">
+                            <label for="code" class="col-md-4 col-form-label text-md-right">{{ __('Code') }}</label>
+                            <div class="col-md-6">
+                                <input id="code" type="text" class="form-control @error('code') is-invalid @enderror" name="code" required autocomplete="code">
+                                
+                                @error('code')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <small id="help" class="form-text text-muted" style="text-align: center">Voer hier de BD code in. Check hiervoor de beschrijving van de BD groepschat.</small>
+                        <br>
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
