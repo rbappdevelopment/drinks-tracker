@@ -9,8 +9,18 @@ use App\Models\Bierstand;
 use App\Models\Mutaties;
 ?>
 
+{{-- Add conditional to check whether or not Read Only mode is on --}}
+@php
+    $isReadOnly = DB::table('users')->where('id', auth()->user()->id)->value('is_readonly')
+@endphp
 
-{{-- TODO: Deze session werkend krijgen -> laten zien op wie is afgestreept. --}}
+@if($isReadOnly)
+<div style="text-align: center">
+    <h1>- Leesmodus -</h1>
+    <a href="#explainModal" data-toggle="modal"><u>Wat is dit?</u></a>
+</div>
+@endif
+
 @if (session('status'))
     <div class="alert alert-success">
        <p> {{ session('status') }} </p>
@@ -42,8 +52,10 @@ use App\Models\Mutaties;
         <tr>
             <td id="addpadding">Heer</td>
             <td id="addpadding">Bierstand</td>
+            @if(!$isReadOnly)
             <td id="addpadding">#</td>
             <td id="addpadding"></td>
+            @endif
         </tr>
     </thead>
 <tbody>
@@ -55,25 +67,58 @@ use App\Models\Mutaties;
                     @endif
                     {{$heer->Heer}}
                   </a></td>
-                  <td><a href="#" onclick="AddBeerToHeer('{{$heer->Heer}}', 1);return false;">{{$heer->Bier}}</a></td>
+                  <td><a href="#" @if(!$isReadOnly)onclick="AddBeerToHeer('{{$heer->Heer}}', 1);return false;"@endif>{{$heer->Bier}}</a></td>
+                  @if(!$isReadOnly)
                   <td><b><a href="#" onclick="AddBeerToHeer('{{$heer->Heer}}', 1);return false;" id="localBierCount{{$heer->Heer}}"></b></a></td>
                   <td><a href="#" onclick="AddBeerToHeer('{{$heer->Heer}}', 12);return false;" id="localBierCount{{$heer->Heer}}" class="addTwelve"><i class="fas fa-beer"></i>x12</a></td>
+                  @endif
           </tr>
         @endforeach
 </tbody>
 </table>
 
+@if(!$isReadOnly)
 <div class="footer">
     <b id="showTotalStatic" style="display: none;">Totaal:</b>
     <br>
     <span id="EditList"></span>
     <button name="submit" class="btn btn-primary" style="float: right; margin: 0px 15px 15px 0px;" onclick="return PostData()">Afstrepen!</button>
 </div>
+@endif
 
 <br>
 <br>
 <br>
 <div class="enlargePage"></div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="explainModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="explainModalTitle">Toelichting leesmodus</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="text-align: center">
+            Alle aangemaakte accounts beginnen standaard in <b>leesmodus</b>. Hiermee kan je de bierstand <u>wél</u> inzien, maar <u>niet</u> afstrepen.
+            <br>
+            Mogelijkheid om te kunnen afstrepen vereist nog een handmatige actie in je account door Rian.
+            <br><br>
+            Dit is expres zo opgezet, zodat in het geval een buitenstaander het mocht lukken om een account aan te maken, degene niet gelijk de cijfers overhoop kan gooien. 
+            <br><br>
+            Wil je kunnen afstrepen of heb je andere vragen omtrent het Biersysteem? Contacteer dan Rian.
+            <br><br>
+            <img src="{{ URL::to('/images\/') . "ramones.jpeg" }}" style="border-radius: 65%; max-width: 40%; max-height: 40%">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Terug</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 @endsection
 
 @section('scripts')
