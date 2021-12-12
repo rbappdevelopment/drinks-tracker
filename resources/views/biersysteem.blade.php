@@ -110,7 +110,7 @@ use App\Models\Mutaties;
             <br><br>
             Wil je kunnen afstrepen of heb je andere vragen omtrent het Biersysteem? Contacteer dan Rian.
             <br><br>
-            <img src="{{ URL::to('/images\/') . "ramones.jpeg" }}" style="border-radius: 65%; max-width: 40%; max-height: 40%">
+            <img src="{{ URL::to('/images/priv\/') . "ramones.jpeg" }}" style="border-radius: 65%; max-width: 40%; max-height: 40%">
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Terug</button>
@@ -142,8 +142,6 @@ $(document).ready(function() {
     }
 });
 
-console.log("Gelade data uit Db: " + JSON.stringify(Personen));
-
 function AddBeerToHeer(heer, amount){
     //update value in object array & increment drinkcount
     var persoonBeverageCount = Personen.Heren.find(persoon => persoon.Heer === heer)['Afgestreept'] += amount;
@@ -168,7 +166,6 @@ function AddBeerToHeer(heer, amount){
 
 function PostData()
 {
-console.log("Submitting data: " + Personen);
 
 $.ajaxSetup({
       headers: {

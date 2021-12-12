@@ -69,6 +69,10 @@
             </div>
         </div>
     </div>
+    <br><br>
+    <div style="text-align: center">
+    <img src="{{ URL::to('/images/priv\/') . "BD-logo.jpg" }}" style="max-width: 20%; max-height: 20%; border-radius: 65%;">
+    </div>
 </div>
 
   <!-- Modal -->

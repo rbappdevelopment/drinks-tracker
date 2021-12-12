@@ -34,51 +34,50 @@ class BiersysteemController extends Controller
     }
 
     public function UpdateBierstand(Request $request){
+            $input = $request->collect();
+            $requestPersonen = $request->input('Personen.Heren.*');
 
-        $input = $request->collect();
-        $requestPersonen = $request->input('Personen.Heren.*');
+            $PeopleWithBeerAdded = [];
 
-        $PeopleWithBeerAdded = [];
+            foreach($requestPersonen as $name){
 
-        foreach($requestPersonen as $name){
-                //TODO: Add WhenHas() check to see if name is in the db
-
-                $data = Bierstand::where('Heer', $name["Heer"]);
-                $dataBier = $data->value('Bier');
-                $dataTotaalOnzichtbaar = $data->value('TotaalOnzichtbaar');
-                
-                //if user has drink deducted (>0), process the mutation
-                if($name["Afgestreept"]>0){
-
-                    //deduct beverage from person
-                    $dataBier -= $name["Afgestreept"];
-                    $data->Bier = $dataBier;
-
-                    //add deduction to invisible deduction total (for displaying the order) 
-                    $dataTotaalOnzichtbaar += $name["Afgestreept"];
-                    $data->TotaalOnzichtbaar = $dataTotaalOnzichtbaar;
-
-                    //save to db table Bierstand
-                    $data->update([
-                        'Bier' => $dataBier,
-                        'TotaalOnzichtbaar' => $dataTotaalOnzichtbaar]
-                    );
-
-                    //TODO: store whether or not person had drinks added to show on view
-                    array_push($PeopleWithBeerAdded, $name);
-
-                    echo "Where dataBier = " . $dataBier . " & "; 
+                    $data = Bierstand::where('Heer', $name["Heer"]);
+                    $dataBier = $data->value('Bier');
+                    $dataTotaalOnzichtbaar = $data->value('TotaalOnzichtbaar');
                     
-                    //log into db table Mutaties
-                    $mutatie = new Mutaties;
-                    $mutatie->HeerId = Bierstand::where('Heer', $name["Heer"])->value('id');
-                    $mutatie->AantalBier = -1*$name["Afgestreept"];
-                    $mutatie->TotaalBierNaMutatie = $dataBier;
-                    $mutatie->GemuteerdDoorHeer = auth()->user()->name;
-                    $mutatie->save();
-                }
+                    //if user has drink deducted (>0), process the mutation
+                    if($name["Afgestreept"]>0){
+
+                        //deduct beverage from person
+                        $dataBier -= $name["Afgestreept"];
+                        $data->Bier = $dataBier;
+
+                        //add deduction to invisible deduction total (for displaying the order) 
+                        $dataTotaalOnzichtbaar += $name["Afgestreept"];
+                        $data->TotaalOnzichtbaar = $dataTotaalOnzichtbaar;
+
+                        //save to db table Bierstand
+                        $data->update([
+                            'Bier' => $dataBier,
+                            'TotaalOnzichtbaar' => $dataTotaalOnzichtbaar]
+                        );
+
+                        //TODO: store whether or not person had drinks added to show on view
+                        array_push($PeopleWithBeerAdded, $name);
+
+                        echo "Where dataBier = " . $dataBier . " & "; 
+                        
+                        //log into db table Mutaties
+                        $mutatie = new Mutaties;
+                        $mutatie->HeerId = Bierstand::where('Heer', $name["Heer"])->value('id');
+                        $mutatie->AantalBier = -1*$name["Afgestreept"];
+                        $mutatie->TotaalBierNaMutatie = $dataBier;
+                        $mutatie->GemuteerdDoorHeer = auth()->user()->name;
+                        $mutatie->save();
+                    }
+            }
+
+        return redirect('/biersysteem')->with('status', 'Er is afgestreept.');
     }
-    return redirect('/biersysteem')->with('status', 'Er is afgestreept op ... [array van mensen + # drinks hier] !'); // TODO: Send array of people with beverages drank to show on view
-}
 
 }
