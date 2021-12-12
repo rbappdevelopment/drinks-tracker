@@ -14,7 +14,7 @@ class UpdateColumnInBierstandTable extends Migration
     public function up()
     {
         Schema::table('Mutaties', function (Blueprint $table) {
-            $table->string('GemuteerdDoorHeer', 30)->change();
+            $table->string('GemuteerdDoorHeer', 30);
         });
     }
 
