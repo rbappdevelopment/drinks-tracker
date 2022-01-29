@@ -14,7 +14,7 @@ class AddReadonlyColumnInUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('is_readonly')->default('1');
+           //$table->integer('is_readonly')->default('1');
         });
     }
 
