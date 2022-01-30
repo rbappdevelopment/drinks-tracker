@@ -13,22 +13,22 @@ class CreateBierstandAndMutatiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('Bierstand', function (Blueprint $table) {
-            $table->id();
-            $table->string('Heer');
-            $table->integer('Bier');
-            $table->integer('TotaalOnzichtbaar')->default('0');
-            $table->timestamps();
-        });
+        // Schema::create('Bierstand', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('Heer');
+        //     $table->integer('Bier');
+        //     $table->integer('TotaalOnzichtbaar')->default('0');
+        //     $table->timestamps();
+        // });
 
-        Schema::create('Mutaties', function (Blueprint $table) {
-            $table->id();
-            $table->integer('HeerId');
-            $table->integer('AantalBier');
-            $table->integer('TotaalBierNaMutatie');
-            $table->string('GemuteerdDoorHeer', 30);
-            $table->timestamps();
-        });
+        // Schema::create('Mutaties', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->integer('HeerId');
+        //     $table->integer('AantalBier');
+        //     $table->integer('TotaalBierNaMutatie');
+        //     $table->string('GemuteerdDoorHeer', 30);
+        //     $table->timestamps();
+        // });
     }
 
     /**
