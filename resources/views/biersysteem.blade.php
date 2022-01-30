@@ -11,13 +11,15 @@ use App\Models\Mutaties;
 
 {{-- Add conditional to check whether or not Read Only mode is on --}}
 @php
-    $isReadOnly = DB::table('users')->where('id', auth()->user()->id)->value('is_readonly')
+  $currentLoggedInUserId = DB::table('users')->where('id', auth()->user()->id)->value('id');
+  $getHousesForParticipant = DB::table('participant')->where('user_id', auth()->user()->id)->value('house_id);
+  $isReadOnly = null;
 @endphp
 
 @if($isReadOnly)
 <div style="text-align: center">
-    <h1>- Leesmodus -</h1>
-    <a href="#explainModal" data-toggle="modal"><u>Wat is dit?</u></a>
+    <h1>Er is nog geen huislijst aangemaakt.</h1>
+    <a href="#explainModal" data-toggle="modal"><u>Klik hier om een huislijst aan te maken.</u></a>
 </div>
 @endif
 

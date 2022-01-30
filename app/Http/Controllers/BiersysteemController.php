@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Bierstand;
+use App\Models\houseparticipantmap;
 use App\Models\Mutaties;
 class BiersysteemController extends Controller
 {
@@ -25,12 +25,12 @@ class BiersysteemController extends Controller
         }
 
         //Load all data from Bierstand (main) table
-        $bierstand = Bierstand::orderBy('TotaalOnzichtbaar', 'desc')->get();
+        $houseparticipantmap = houseparticipantmap::orderBy('house_id', 'desc')->get();
 
         //Load mutaties for mutaties button in header
         $mutaties = Mutaties::orderBy('created_at', 'desc')->paginate(50);
 
-        return view('biersysteem', compact('bierstand', 'mutaties'));
+        return view('welcome', compact('houseparticipantmap', 'mutaties'));
     }
 
     public function UpdateBierstand(Request $request){
