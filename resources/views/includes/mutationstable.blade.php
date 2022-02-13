@@ -1,5 +1,5 @@
 <?php 
-use App\Models\Bierstand;
+use App\Models\Participant;
 
 ?>
 
@@ -16,7 +16,7 @@ use App\Models\Bierstand;
 <tbody>
         @foreach($mutaties as $mutatie)
         <tr class="tr mutationsbody" style="@if ($mutatie->IsAdminUpdate) background: lightgreen @endif"> {{-- Add data-toggle="modal" data-target="#mutatiesModal" to this tr for edit row entry (TODO admin screen to edit) --}}
-          <td id="">@php $subjectName = Bierstand::where('id', $mutatie->HeerId)->value('Heer') @endphp {{ $subjectName }}</td>
+          <td id="">@php $subjectName = Participant::where('id', $mutatie->id)->value('display_name') @endphp {{ $subjectName }}</td>
           <td id="">{{$mutatie->AantalBier}}</td>
           <td id="">{{$mutatie->TotaalBierNaMutatie}}</td>
           <td id="">{{$mutatie->GemuteerdDoorHeer}}</td>

@@ -13,6 +13,15 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
+     * One-to-one relationship.
+     *
+     * @var string[]
+     */
+    public function participant(){
+        return $this->hasOne(Participant::class);
+       }
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var string[]

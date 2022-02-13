@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\houseparticipantmap;
+use App\Models\participant;
 use App\Models\Mutaties;
+use App\Models\User;
 class BiersysteemController extends Controller
 {
     public function __construct(){
@@ -24,13 +26,22 @@ class BiersysteemController extends Controller
             die("Could not connect to the database, the following error has occured:" . $ex );
         }
 
-        //Load all data from Bierstand (main) table
-        $houseparticipantmap = houseparticipantmap::orderBy('house_id', 'desc')->get();
+        $getCurrentLoggedInUserId = auth()->user()->id;
 
+        //Load all data from houseparticipantmap (main) table
+        // $houseparticipantmap = houseparticipantmap::orderBy('house_id', 'desc')
+        // //->where('participant_id', participant::)
+        // ->where('user_id', auth()->user()->id)
+        // ->value('house_id')->get();
+
+        $houseparticipantmap = User::find($getCurrentLoggedInUserId);
+        //$houses = houseparticipantmap::whereBelongsTo($houseparticipantmapQ);
         //Load mutaties for mutaties button in header
         $mutaties = Mutaties::orderBy('created_at', 'desc')->paginate(50);
 
-        return view('welcome', compact('houseparticipantmap', 'mutaties'));
+        $participant = User::find(1)->Participant;
+
+        return view('welcome', compact('houseparticipantmap', 'mutaties', 'participant'));
     }
 
     public function UpdateBierstand(Request $request){

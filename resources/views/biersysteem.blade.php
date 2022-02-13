@@ -12,7 +12,7 @@ use App\Models\Mutaties;
 {{-- Add conditional to check whether or not Read Only mode is on --}}
 @php
   $currentLoggedInUserId = DB::table('users')->where('id', auth()->user()->id)->value('id');
-  $getHousesForParticipant = DB::table('participant')->where('user_id', auth()->user()->id)->value('house_id);
+  $getHousesForParticipant = DB::table('participant')->where('user_id', auth()->user()->id)->value('name');
   $isReadOnly = null;
 @endphp
 
@@ -54,32 +54,23 @@ use App\Models\Mutaties;
 <table id="usersTable">
     <thead>
         <tr>
-            <td id="addpadding">Heer</td>
-            <td id="addpadding">Bierstand</td>
-            @if(!$isReadOnly)
-            <td id="addpadding">#</td>
-            <td id="addpadding"></td>
-            @endif
+            <td id="addpadding">Huis</td>
         </tr>
     </thead>
 <tbody>
         @foreach($bierstand as $heer)
           <tr class="tr body">
                   <td><a href="#" onclick="AddBeerToHeer('{{$heer->Heer}}', 1);return false;">
-                    @if ($loop->first)
-                      <i class="fas fa-crown"></i>
-                    @endif
-                    {{$heer->Heer}}
+                  {{$heer->Name}}
                   </a></td>
-                  <td><a href="#" @if(!$isReadOnly)onclick="AddBeerToHeer('{{$heer->Heer}}', 1);return false;"@endif>{{$heer->Bier}}</a></td>
-                  @if(!$isReadOnly)
-                  <td><b><a href="#" onclick="AddBeerToHeer('{{$heer->Heer}}', 1);return false;" id="localBierCount{{$heer->Heer}}"></b></a></td>
-                  <td><a href="#" onclick="AddBeerToHeer('{{$heer->Heer}}', 12);return false;" id="localBierCount{{$heer->Heer}}" class="addTwelve"><i class="fas fa-beer"></i>x12</a></td>
-                  @endif
           </tr>
         @endforeach
 </tbody>
 </table>
+
+@foreach($houses as $house)
+<p>$house->house_id</p>
+@endforeach
 
 @if(!$isReadOnly)
 <div class="footer">
